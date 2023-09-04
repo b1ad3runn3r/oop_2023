@@ -7,6 +7,7 @@
 #include <string>
 #include <cerrno>
 #include <cstring>
+#include <vector>
 
 namespace Lab1 {
     struct NonZeroElem {
@@ -18,7 +19,7 @@ namespace Lab1 {
         unsigned int m = 0;
         unsigned int n = 0;
 
-        std::list< std::list<NonZeroElem>> rows;
+        std::list<std::list<NonZeroElem>> rows;
     };
 
     template <typename T>

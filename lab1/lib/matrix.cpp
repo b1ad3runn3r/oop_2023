@@ -36,29 +36,26 @@ namespace Lab1 {
     }
 
     void output(const std::string &msg, SparseMatrix &matrix) {
-        //TODO: make output to not erase whole matrix
         std::cout << msg << std::endl;
 
-        for (unsigned int i = 0; i < matrix.m; ++i) {
-            std::list<NonZeroElem> row = matrix.rows.front();
-            for (unsigned int j = 0; j < matrix.n; ++j) {
+        for (auto row: matrix.rows) {
+            auto row_iter = row.begin();
+            for (unsigned int i = 0; i < matrix.n; ++i) {
                 if (row.empty()) {
-                    std::cout << 0 << ' ';
+                    std::cout << "0 ";
                     continue;
                 }
-                NonZeroElem cur = row.front();
 
-                if (cur.column == j) {
-                    std::cout << cur.data << ' ';
-                    row.pop_front();
+                if (row_iter->column == i) {
+                    std::cout << row_iter->data << ' ';
+                    ++row_iter;
                 }
                 else {
-                    std::cout << 0 << ' ';
+                    std::cout << "0 ";
                 }
             }
 
             std::cout << std::endl;
-            matrix.rows.pop_front();
         }
     }
 

@@ -9,13 +9,19 @@ int main() {
     try {
         source = input();
         output(std::string("Source sparse matrix:"), source);
+        erase(source);
+        //erase(res);
     }
     catch (const std::bad_alloc &ba) {
         std::cerr << "Not enough memory" << std::endl;
+        erase(source);
+        //erase(res);
         return 1;
     }
     catch (const std::exception &e) {
         std::cerr << e.what() << std::endl;
+        erase(source);
+        //erase(res);
         return 1;
     }
 
