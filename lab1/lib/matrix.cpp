@@ -61,6 +61,11 @@ namespace Lab1 {
     }
 
     void erase(SparseMatrix &matrix) {
+        for (auto row : matrix.rows) {
+            row.clear();
+        }
+
+        matrix.rows.clear();
         matrix.m = 0;
         matrix.n = 0;
     }
@@ -70,40 +75,51 @@ namespace Lab1 {
         res.m = source.m;
         res.n = source.n;
 
-        for (auto row : source.rows) {
-            if (row.empty()) {
-                --res.m;
-                continue;
-            }
-            auto iter_greater = row.begin();
-            auto iter_lower = row.begin();
+        try {
+            for (auto row : source.rows) {
+                if (row.empty()) {
+                    --res.m;
+                    continue;
+                }
+                auto iter_greater = row.begin();
+                auto iter_lower = iter_greater;
 
-            while (iter_greater != row.end()) {
-                if (iter_greater->data > 0) {
-                    break;
+                while (iter_greater != row.end()) {
+                    if (iter_greater->data > 0) {
+                        break;
+                    }
+
+                    ++iter_greater;
                 }
 
-                ++iter_greater;
-            }
+                while (iter_lower != row.end()) {
+                    if (iter_lower->data < 0) {
+                        break;
+                    }
 
-            while (iter_lower != row.end()) {
-                if (iter_lower->data < 0) {
-                    break;
+                    ++iter_lower;
                 }
 
-                ++iter_lower;
-            }
+                if (std::distance(iter_greater, iter_lower) < 0) {
+                    --res.m;
+                    continue;
+                }
 
-            std::list<NonZeroElem> tmp;
-            if (iter_greater != row.end() && iter_lower != row.end()) {
-                ++iter_greater;
-                std::copy(iter_greater, iter_lower, std::back_inserter(tmp));
-            }
-            else {
-                std::copy(row.begin(), row.end(), std::back_inserter(tmp));
-            }
+                std::list<NonZeroElem> tmp;
+                if (iter_greater != row.end() && iter_lower != row.end()) {
+                    ++iter_greater;
+                    std::copy(iter_greater, iter_lower, std::back_inserter(tmp));
+                }
+                else {
+                    std::copy(row.begin(), row.end(), std::back_inserter(tmp));
+                }
 
-            res.rows.push_back(tmp);
+                res.rows.push_back(tmp);
+            }
+        }
+        catch (...) {
+            erase(res);
+            throw ;
         }
 
         return res;
