@@ -5,23 +5,25 @@ using namespace Lab1;
 
 int main() {
     SparseMatrix source;
-    //SparseMatrix res;
+    SparseMatrix res;
     try {
         source = input();
         output(std::string("Source sparse matrix:"), source);
+        res = proceed(source);
+        output(std::string("Result sparse matrix:"), res);
         erase(source);
-        //erase(res);
+        erase(res);
     }
     catch (const std::bad_alloc &ba) {
         std::cerr << "Not enough memory" << std::endl;
         erase(source);
-        //erase(res);
+        erase(res);
         return 1;
     }
     catch (const std::exception &e) {
         std::cerr << e.what() << std::endl;
         erase(source);
-        //erase(res);
+        erase(res);
         return 1;
     }
 

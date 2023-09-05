@@ -47,6 +47,7 @@ namespace Lab1 {
     SparseMatrix input();
     void output(const std::string &msg, SparseMatrix &matrix);
     void erase(SparseMatrix &matrix);
+    SparseMatrix proceed(const SparseMatrix &source);
 }
 
 
