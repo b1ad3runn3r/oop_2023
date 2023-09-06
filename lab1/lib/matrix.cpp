@@ -38,7 +38,7 @@ namespace Lab1 {
         return matrix;
     }
 
-    void output(const std::string &msg, SparseMatrix &matrix) {
+    void output(const std::string &msg, const SparseMatrix &matrix) {
         std::cout << msg << std::endl;
 
         for (auto row: matrix.rows) {
