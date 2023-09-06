@@ -8,9 +8,10 @@ int main() {
     SparseMatrix res;
     try {
         source = input();
-        output(std::string("Source sparse matrix:"), source);
+        output(std::string("Source matrix:"), source);
         res = proceed(source);
-        output(std::string("Result sparse matrix:"), res);
+
+        output(std::string("Result matrix:"), res);
         erase(source);
         erase(res);
     }

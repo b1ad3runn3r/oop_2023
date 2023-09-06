@@ -13,6 +13,8 @@ namespace Lab1 {
             std::cout << "Enter number of columns: ";
             matrix.n = getNum<int>(0);
 
+            std::cout << "Now enter matrix elements: " << std::endl;
+
             for (int i = 0; i < matrix.m; ++i) {
                 std::list<NonZeroElem> row;
                 for (int j = 0; j < matrix.n; ++j) {
