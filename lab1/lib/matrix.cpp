@@ -16,7 +16,7 @@ namespace Lab1 {
             std::cout << "Now enter matrix elements: " << std::endl;
 
             for (int i = 0; i < matrix.m; ++i) {
-                std::list<NonZeroElem> row;
+                std::vector<NonZeroElem> row;
                 for (int j = 0; j < matrix.n; ++j) {
                     int num = getNum<int>();
                     if (num == 0) {
@@ -107,7 +107,7 @@ namespace Lab1 {
                     continue;
                 }
 
-                std::list<NonZeroElem> tmp;
+                std::vector<NonZeroElem> tmp;
                 if (iter_greater != row.end() && iter_lower != row.end()) {
                     ++iter_greater;
                     std::copy(iter_greater, iter_lower, std::back_inserter(tmp));

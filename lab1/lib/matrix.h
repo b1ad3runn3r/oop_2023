@@ -19,7 +19,7 @@ namespace Lab1 {
         int m = 0;
         int n = 0;
 
-        std::list<std::list<NonZeroElem>> rows;
+        std::list<std::vector<NonZeroElem>> rows;
     };
 
     template <typename T>
