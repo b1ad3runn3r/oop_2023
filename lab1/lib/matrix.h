@@ -11,13 +11,13 @@
 
 namespace Lab1 {
     struct NonZeroElem {
-        unsigned int column = 0;
+        int column = 0;
         int data = 0;
     };
 
     struct SparseMatrix {
-        unsigned int m = 0;
-        unsigned int n = 0;
+        int m = 0;
+        int n = 0;
 
         std::list<std::list<NonZeroElem>> rows;
     };
@@ -40,6 +40,9 @@ namespace Lab1 {
             }
             else if (a >= min && a <= max) {
                 return a;
+            }
+            else if (a > max || a < min) {
+                throw std::out_of_range(std::string("Bad input, number exceeds range!"));
             }
         }
     }
