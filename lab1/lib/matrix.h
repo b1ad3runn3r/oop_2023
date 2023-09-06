@@ -41,7 +41,7 @@ namespace Lab1 {
             else if (a >= min && a <= max) {
                 return a;
             }
-            else if (a > max || a < min) {
+            else {
                 throw std::out_of_range(std::string("Bad input, number exceeds range!"));
             }
         }
