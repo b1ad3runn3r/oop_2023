@@ -1,3 +1,4 @@
 build*
+!build.bash
 .idea
 .PVS-Studio
