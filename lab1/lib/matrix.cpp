@@ -17,18 +17,18 @@ namespace Lab1 {
             std::cout << "Now enter matrix elements: " << std::endl;
 
             for (int i = 0; i < matrix.m; ++i) {
-                std::vector<NonZeroElem> row;
+                std::vector<NonZeroElem> cur_row;
                 for (int j = 0; j < matrix.n; ++j) {
                     int num = getNum<int>();
                     if (num == 0) {
                         continue;
                     }
                     else {
-                        row.push_back({j, num});
+                        cur_row.push_back({j, num});
                     }
                 }
 
-                matrix.rows.push_back(row);
+                matrix.rows.push_back(cur_row);
             }
         }
         catch (...) {
@@ -47,11 +47,15 @@ namespace Lab1 {
                 for (int i = 0; i < matrix.n; i++) {
                     std::cout << "0 ";
                 }
+
+                std::cout << std::endl;
+                continue;
             }
 
-            int idx = 0;
+            size_t idx = 0;
+            size_t last_idx = row.size() - 1;
             for (int i = 0; i < matrix.n; ++i) {
-                if (row[idx].column == i) {
+                if (idx <= last_idx && row[idx].column == i ) {
                     std::cout << row[idx].data << ' ';
                     ++idx;
                 }
@@ -80,7 +84,7 @@ namespace Lab1 {
         res.n = source.n;
 
         try {
-            for (auto src_row : source.rows) {
+            for (const auto &src_row : source.rows) {
                 if (src_row.empty()) {
                     --res.m;
                     continue;
@@ -107,18 +111,17 @@ namespace Lab1 {
                     continue;
                 }
 
-                if (idx_greater > idx_lower) {
-                    std::swap(idx_greater, idx_lower);
-                }
-                else if (idx_greater == src_row_size) {
+                if (idx_greater == src_row_size) {
                     idx_greater = 0;
                 }
                 else if(idx_lower == src_row_size) {
                     idx_lower = src_row_size - 1;
                 }
+                else if (idx_greater > idx_lower) {
+                    std::swap(idx_greater, idx_lower);
+                }
 
                 std::vector<NonZeroElem> res_row;
-                res_row.reserve(idx_lower - idx_greater + 1);
                 std::copy(src_row.begin() + idx_greater,
                           src_row.begin() + idx_lower + 1,
                           std::back_inserter(res_row)
