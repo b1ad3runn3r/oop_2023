@@ -42,16 +42,16 @@ namespace Lab1 {
         std::cout << msg << std::endl;
 
         for (auto row: matrix.rows) {
-            auto row_iter = row.begin();
             for (int i = 0; i < matrix.n; ++i) {
+                int idx = 0;
                 if (row.empty()) {
                     std::cout << "0 ";
                     continue;
                 }
 
-                if (row_iter->column == i) {
-                    std::cout << row_iter->data << ' ';
-                    ++row_iter;
+                if (row[idx].column == i) {
+                    std::cout << row[idx].data << ' ';
+                    ++idx;
                 }
                 else {
                     std::cout << "0 ";
@@ -78,45 +78,50 @@ namespace Lab1 {
         res.n = source.n;
 
         try {
-            for (auto row : source.rows) {
-                if (row.empty()) {
-                    --res.m;
-                    continue;
-                }
-                auto iter_greater = row.begin();
-                auto iter_lower = iter_greater;
-
-                while (iter_greater != row.end()) {
-                    if (iter_greater->data > 0) {
-                        break;
-                    }
-
-                    ++iter_greater;
-                }
-
-                while (iter_lower != row.end()) {
-                    if (iter_lower->data < 0) {
-                        break;
-                    }
-
-                    ++iter_lower;
-                }
-
-                if (std::distance(iter_greater, iter_lower) < 0) {
+            for (auto src_row : source.rows) {
+                if (src_row.empty()) {
                     --res.m;
                     continue;
                 }
 
-                std::vector<NonZeroElem> tmp;
-                if (iter_greater != row.end() && iter_lower != row.end()) {
-                    ++iter_greater;
-                    std::copy(iter_greater, iter_lower, std::back_inserter(tmp));
-                }
-                else {
-                    std::copy(row.begin(), row.end(), std::back_inserter(tmp));
+                unsigned int idx_greater = 0;
+                unsigned int idx_lower = 0;
+                auto src_row_size = src_row.size();
+
+                for (; idx_greater < src_row_size; ++idx_greater) {
+                    if (src_row[idx_greater].data > 0) {
+                        break;
+                    }
                 }
 
-                res.rows.push_back(tmp);
+                for (; idx_lower < src_row_size; ++idx_lower) {
+                    if (src_row[idx_lower].data < 0) {
+                        break;
+                    }
+                }
+
+                if (idx_greater == src_row_size && idx_lower == src_row_size) {
+                    --res.m;
+                    continue;
+                }
+
+                if (idx_greater > idx_lower) {
+                    std::swap(idx_greater, idx_lower);
+                }
+                else if (idx_greater == src_row_size) {
+                    idx_greater = 0;
+                }
+                else if(idx_lower == src_row_size) {
+                    idx_lower = src_row_size - 1;
+                }
+
+                std::vector<NonZeroElem> res_row;
+                std::copy(src_row.begin() + idx_greater,
+                          src_row.begin() + idx_lower,
+                          std::back_inserter(res_row)
+                          );
+
+                res.rows.push_back(res_row);
             }
         }
         catch (...) {
