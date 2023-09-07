@@ -1,7 +1,8 @@
 #include "matrix.h"
 
-#include <list>
 #include <algorithm>
+#include <iterator>
+#include <vector>
 
 namespace Lab1 {
     SparseMatrix input() {
@@ -41,14 +42,15 @@ namespace Lab1 {
     void output(const std::string &msg, const SparseMatrix &matrix) {
         std::cout << msg << std::endl;
 
-        for (auto row: matrix.rows) {
-            for (int i = 0; i < matrix.n; ++i) {
-                int idx = 0;
-                if (row.empty()) {
+        for (const auto &row: matrix.rows) {
+            if (row.empty()) {
+                for (int i = 0; i < matrix.n; i++) {
                     std::cout << "0 ";
-                    continue;
                 }
+            }
 
+            int idx = 0;
+            for (int i = 0; i < matrix.n; ++i) {
                 if (row[idx].column == i) {
                     std::cout << row[idx].data << ' ';
                     ++idx;
@@ -116,8 +118,9 @@ namespace Lab1 {
                 }
 
                 std::vector<NonZeroElem> res_row;
+                res_row.reserve(idx_lower - idx_greater + 1);
                 std::copy(src_row.begin() + idx_greater,
-                          src_row.begin() + idx_lower,
+                          src_row.begin() + idx_lower + 1,
                           std::back_inserter(res_row)
                           );
 
