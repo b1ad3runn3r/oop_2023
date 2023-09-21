@@ -3,3 +3,4 @@ build*
 .idea
 .vscode
 .PVS-Studio
+*.PVS-Studio*
