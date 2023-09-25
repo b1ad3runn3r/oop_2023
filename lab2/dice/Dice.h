@@ -41,7 +41,11 @@ namespace dice {
 
         // Getters
         int getVal() const;
-        double getProb(int pos) const;
+        const double *getProbs() const;
+
+        // Setters
+        void setVal(int val);
+        void setProbs(double probs[6]);
 
         // We don't need to set every side's probability separately, so we don't need setters
 

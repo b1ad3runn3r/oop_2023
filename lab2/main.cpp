@@ -7,8 +7,9 @@ int main() {
     try {
         std::cout << d.getAscii() << std::endl;
 
+        const double *ptr = d.getProbs();
         for (int i = 0; i < 6; ++i) {
-            std::cout << d.getProb(i + 1) << std::endl;
+            std::cout << ptr[i] << std::endl;
         }
     }
     catch (const std::exception &e) {

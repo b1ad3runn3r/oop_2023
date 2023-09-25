@@ -8,15 +8,10 @@
 namespace dice {
     // Private methods
     void Dice::initRNG() {
-        try {
-            uint64_t timeSeed = std::chrono::high_resolution_clock::now().time_since_epoch().count();
-            std::seed_seq ss{uint32_t(timeSeed & 0xffffffff), uint32_t(timeSeed>>32)};
-            m_rng.seed(ss);
-            m_dist = std::uniform_real_distribution<double>(0.0, 1.0);
-        }
-        catch (...) {
-            throw ;
-        }
+        uint64_t timeSeed = std::chrono::high_resolution_clock::now().time_since_epoch().count();
+        std::seed_seq ss{uint32_t(timeSeed & 0xffffffff), uint32_t(timeSeed>>32)};
+        m_rng.seed(ss);
+        m_dist = std::uniform_real_distribution<double>(0.0, 1.0);
     }
 
     int Dice::genWithDistrib() {
@@ -34,12 +29,7 @@ namespace dice {
     }
 
     Dice::Dice(int val, double probs[6]) {
-        try {
-            initRNG();
-        }
-        catch (...) {
-            throw ;
-        }
+        initRNG();
 
         if (probs == nullptr) {
             throw std::invalid_argument("Probabilities can't be nullptr!");
@@ -50,6 +40,7 @@ namespace dice {
         }
 
         std::copy(probs, probs + 6, std::begin(m_probs));
+
         m_value = val;
     }
 
@@ -74,12 +65,30 @@ namespace dice {
         return m_value;
     }
 
-    double Dice::getProb(int pos) const {
-        if (pos > 6 || pos < 1) {
-            throw std::invalid_argument("Bad position!");
+    const double *Dice::getProbs() const {
+        return m_probs;
+    }
+
+    // Setters
+    void Dice::setVal(int val) {
+        if (val < 1 || val > 6) {
+            throw std::invalid_argument("Invalid value for dice!");
         }
 
-        return m_probs[pos - 1];
+        m_value = val;
+    }
+
+    void Dice::setProbs(double probs[6]) {
+        if (probs == nullptr) {
+            throw std::invalid_argument("Probabilities can't be nullptr!");
+        }
+
+        try {
+            std::copy(probs, probs + 6, std::begin(m_probs));
+        }
+        catch (...) {
+            throw ;
+        }
     }
 
     // Methods
