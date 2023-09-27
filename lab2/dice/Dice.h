@@ -7,7 +7,7 @@
 namespace dice {
     // Default probability
     const double d_p = 1.0 / 6;
-    const double eps = 1e-4;
+    const double eps = 0.001;
 
     static double d_probs[6] = {
             d_p,
@@ -18,13 +18,22 @@ namespace dice {
             d_p
     };
 
+    const static std::string asciis[6] = {
+            "┌─────────┐\n│         │\n│    ●    │\n│         │\n└─────────┘",
+            "┌─────────┐\n│    ●    │\n│         │\n│    ●    │\n└─────────┘",
+            "┌─────────┐\n│ ●       │\n│    ●    │\n│       ● │\n└─────────┘",
+            "┌─────────┐\n│ ●     ● │\n│         │\n│ ●     ● │\n└─────────┘",
+            "┌─────────┐\n│ ●     ● │\n│    ●    │\n│ ●     ● │\n└─────────┘",
+            "┌─────────┐\n│ ●     ● │\n│ ●     ● │\n│ ●     ● │\n└─────────┘"
+    };
+
     class Dice {
     private:
         // Value of the dice
         int m_value;
 
         // Probabilities of sides rolling
-        double m_probs[6];
+        double m_probs[6]{};
 
         // Random number generator variables
         std::mt19937_64 m_rng;
@@ -33,11 +42,13 @@ namespace dice {
         // Private methods
         void initRNG();
         int genWithDistrib();
+        static bool check_probs(const double probs[6]);
 
     public:
         // Constructors
+        Dice();
         explicit Dice(int val, double probs[6] = d_probs);
-        explicit Dice(double probs[6] = d_probs);
+        explicit Dice(bool random, double probs[6] = d_probs);
 
         // Getters
         int getVal() const;
@@ -45,13 +56,16 @@ namespace dice {
 
         // Setters
         void setVal(int val);
-        void setProbs(double probs[6]);
-
-        // We don't need to set every side's probability separately, so we don't need setters
+        void setProbs(const double probs[6]);
 
         // Methods
         void roll();
         std::string getAscii() const;
+
+        // Operators overload
+        friend bool operator== (const Dice &d, const Dice &other);
+        friend std::ostream &operator<< (std::ostream &out, const Dice& dice);
+        friend std::istream &operator>> (std::istream &in, Dice &dice);
     };
 }
 
