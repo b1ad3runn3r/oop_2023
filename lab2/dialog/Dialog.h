@@ -29,7 +29,8 @@ namespace dialog {
             "1. Input dice\n"
             "2. Output dice\n"
             "3. Roll a dice\n"
-            "4. Print menu\n";
+            "4. Compare dices\n"
+            "5. Print menu\n";
 
     template <typename T>
     T getNum(T min = std::numeric_limits<T>::min(), T max = std::numeric_limits<T>::max()) {
