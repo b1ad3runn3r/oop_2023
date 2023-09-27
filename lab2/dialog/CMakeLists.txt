@@ -1,0 +1,1 @@
+add_library(dialog Dialog.h Dialog.cpp)
