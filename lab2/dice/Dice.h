@@ -18,7 +18,7 @@ namespace dice {
             d_p
     };
 
-    const static std::string asciis[6] = {
+    static const std::string asciis[6] = {
             "┌─────────┐\n│         │\n│    ●    │\n│         │\n└─────────┘",
             "┌─────────┐\n│    ●    │\n│         │\n│    ●    │\n└─────────┘",
             "┌─────────┐\n│ ●       │\n│    ●    │\n│       ● │\n└─────────┘",
@@ -35,21 +35,14 @@ namespace dice {
         // Probabilities of sides rolling
         double m_probs[6]{};
 
-        // Random number generator variables
-        std::mt19937_64 m_rng;
-        std::uniform_real_distribution<double> m_dist;
-
-        /**
-         * @brief Initialize RNG
-         *
-         * Initialize Random Number Generator (Mersenne twister) with clock time seed
-         */
-        void initRNG();
+        // RNG
+        static inline std::mt19937 m_rng{std::random_device{}()};
+        static inline std::uniform_real_distribution<double> m_dist{0.0, 1.0};
 
         /**
          * @brief Generate random numbers
          *
-         * Generate random number with distribution (provided by the array of probabilities
+         * Generate random number with distribution (provided by the array of probabilities)
          *
          * @return Integer value of generated number
          */
@@ -70,13 +63,6 @@ namespace dice {
 
     public:
         /**
-         * @brief Default constructor
-         *
-         * Default constructor for Dice class
-         */
-        Dice();
-
-        /**
          * @brief Constructor from value
          *
          * Constructor for Dice class from value and probabilities
@@ -86,18 +72,18 @@ namespace dice {
          * @throw invalid_argument if value is not in range (1 <= val <= 6)
          * @throw invalid_argument if probabilities are invalid (e.g. they don't sum up to 1)
          */
-        explicit Dice(int val, double probs[6] = d_probs);
+        explicit Dice(int val = 1, double probs[6] = d_probs);
 
         /**
-         * @brief Random constructor
+         * @brief Static method to generate random dice
          *
-         * Constructor for Dice class from probabilities and randomness of the roll
+         * This is a static method that genrates a dice wit ha random value depending on the probabilities
+         * of rolling each side (distribution).
          *
-         * @param random Bool to determine whether the roll should be random or default value
-         * @param probs Array of probabilities
-         * @throw invalid_argument if probabilities are invalid (e.g. they don't sum up to 1)
+         * @param probs Pointer to an array of probabilities
+         * @return Dice class instance
          */
-        explicit Dice(bool random, double probs[6] = d_probs);
+        static Dice random(double probs[6] = d_probs);
 
         /**
          * @brief Getter of value field

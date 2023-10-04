@@ -6,21 +6,14 @@
 
 namespace dice {
     // Private methods
-    void Dice::initRNG() {
-        uint64_t timeSeed = std::chrono::high_resolution_clock::now().time_since_epoch().count();
-        std::seed_seq ss{uint32_t(timeSeed & 0xffffffff), uint32_t(timeSeed>>32)};
-        m_rng.seed(ss);
-        m_dist = std::uniform_real_distribution<double>(0.0, 1.0);
-    }
-
     int Dice::genWithDistrib() {
         double rnum = m_dist(m_rng);
 
-        for (int i = 0; i < 6; ++i) {
-            if (rnum < m_probs[i]) {
+        for (int i = 1; i <= 6; ++i) {
+            if (rnum < m_probs[i - 1]) {
                 return i;
             } else {
-                rnum -= m_probs[i];
+                rnum -= m_probs[i - 1];
             }
         }
 
@@ -48,16 +41,7 @@ namespace dice {
     }
 
     // Constructors
-    Dice::Dice() {
-        m_value = 1;
-        for (int i = 0; i < 6; ++i) {
-            m_probs[i] = d_probs[i];
-        }
-    }
-
     Dice::Dice(int val, double probs[6]) {
-        initRNG();
-
         if (val < 1 || val > 6) {
             throw std::invalid_argument("Invalid value for roll!");
         }
@@ -66,25 +50,20 @@ namespace dice {
             throw std::invalid_argument("Invalid values for probabilities!");
         }
 
-        for (int i = 0; i < 6; ++i) {
-            m_probs[i] = probs[i];
-        }
-
+        std::copy(probs, probs + 6, m_probs);
         m_value = val;
     }
 
-    Dice::Dice(bool random, double probs[6]) {
-        initRNG();
-
+    Dice Dice::random(double probs[6]) {
         if (!check_probs(probs)) {
             throw std::invalid_argument("Invalid values for probabilities!");
         }
 
-        for (int i = 0; i < 6; ++i) {
-            m_probs[i] = probs[i];
-        }
+        Dice d;
+        std::copy(probs, probs + 6, d.m_probs);
+        d.m_value = d.genWithDistrib();
 
-        m_value = random ? genWithDistrib() : 1;
+        return d;
     }
 
     // Getters
@@ -110,9 +89,7 @@ namespace dice {
             throw std::invalid_argument("Invalid values for probabilities!");
         }
 
-        for (int i = 0; i < 6; ++i) {
-            m_probs[i] = d_probs[i];
-        }
+        std::copy(probs, probs + 6, m_probs);
     }
 
     // Methods
@@ -125,33 +102,35 @@ namespace dice {
     }
 
     bool operator== (const Dice &d, const Dice &other) {
-        return d.getVal() == other.getVal();
+        return d.m_value == other.m_value;
     }
 
     std::ostream &operator<< (std::ostream &out, const Dice& dice) {
-        out << "Roll value is: " << dice.getVal() << '\n';
-        out << "Probabilities are: { ";
+        out << dice.m_value << '\n';
 
-        const double *ptr = dice.getProbs();
-        for (int i = 0; i < 6; ++i) {
-            out << ptr[i] << ' ';
+        for (double m_prob : dice.m_probs) {
+            out << m_prob << ' ';
         }
 
-        out << "}\n";
+        out << std::endl;
         return out;
     }
 
     std::istream &operator>> (std::istream &in, Dice &dice) {
         int val;
-        in >> val;
+        try {
+            in >> val;
+            double new_probs[6];
+            for (double & new_prob : new_probs) {
+                in >> new_prob;
+            }
 
-        double new_probs[6];
-        for (double & new_prob : new_probs) {
-            in >> new_prob;
+            dice.setProbs(new_probs);
+            dice.setVal(val);
         }
-
-        dice.setProbs(new_probs);
-        dice.setVal(val);
+        catch (...) {
+            in.setstate(std::ios_base::failbit);
+        }
 
         return in;
     }
