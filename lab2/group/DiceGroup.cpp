@@ -174,7 +174,7 @@ namespace group {
     }
 
     void DiceGroup::operator() (int pos) {
-        if (pos < 0 || pos > m_length) {
+        if (pos < 0 || pos >= m_length) {
             throw std::invalid_argument("Invalid position!");
         }
 
