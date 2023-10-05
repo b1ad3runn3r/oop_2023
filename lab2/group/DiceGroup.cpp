@@ -5,18 +5,13 @@
 namespace group {
     // Private methods
     dice::Dice *DiceGroup::realloc(dice::Dice *old_ptr, int new_len, int old_len) {
-        try {
-            auto *new_ptr = new dice::Dice[new_len];
-            int to_copy = (new_len > old_len) ? old_len : new_len;
+        auto *new_ptr = new dice::Dice[new_len];
+        int to_copy = (new_len > old_len) ? old_len : new_len;
 
-            std::copy(old_ptr, old_ptr + to_copy, new_ptr);
-            delete[] old_ptr;
+        std::copy(old_ptr, old_ptr + to_copy, new_ptr);
+        delete[] old_ptr;
 
-            return new_ptr;
-        }
-        catch (...) {
-            throw ;
-        }
+        return new_ptr;
     }
 
     // Constructors
@@ -30,15 +25,10 @@ namespace group {
             throw std::invalid_argument("Invalid group size!");
         }
 
-        try {
-            m_dices = new dice::Dice[num_dices];
-            m_length = num_dices;
-            for (int i = 0; i < num_dices; ++i) {
-                m_dices[i] = dice::Dice::random();
-            }
-        }
-        catch (...) {
-            throw ;
+        m_dices = new dice::Dice[num_dices];
+        m_length = num_dices;
+        for (int i = 0; i < num_dices; ++i) {
+            m_dices[i] = dice::Dice::random();
         }
     }
 
@@ -64,14 +54,9 @@ namespace group {
     }
 
     DiceGroup::DiceGroup(const DiceGroup &dg): m_dices(nullptr), m_length(dg.m_length) {
-        try {
-            if (m_length) {
-                m_dices = new dice::Dice[m_length];
-                std::copy(dg.m_dices, dg.m_dices + m_length, m_dices);
-            }
-        }
-        catch (...) {
-            throw ;
+        if (m_length) {
+            m_dices = new dice::Dice[m_length];
+            std::copy(dg.m_dices, dg.m_dices + m_length, m_dices);
         }
     }
 
@@ -105,15 +90,10 @@ namespace group {
             throw std::invalid_argument("Invalid group size!");
         }
 
-        try {
-            delete[] m_dices;
-            m_dices = new dice::Dice[size];
-            std::copy(dices, dices + size, m_dices);
-            m_length = size;
-        }
-        catch (...) {
-            throw ;
-        }
+        delete[] m_dices;
+        m_dices = new dice::Dice[size];
+        std::copy(dices, dices + size, m_dices);
+        m_length = size;
     }
 
     void DiceGroup::setSize(int size) {
@@ -121,13 +101,8 @@ namespace group {
             throw std::invalid_argument("Invalid group size!");
         }
 
-        try {
-            m_dices = realloc(m_dices, size, m_length);
-            m_length = size;
-        }
-        catch (...) {
-            throw ;
-        }
+        m_dices = realloc(m_dices, size, m_length);
+        m_length = size;
     }
 
     // Methods
@@ -182,41 +157,31 @@ namespace group {
     }
 
     DiceGroup &DiceGroup::operator+= (const dice::Dice &to_add) {
-        try {
-            m_dices = realloc(m_dices, m_length + 1, m_length);
-            m_dices[m_length] = to_add;
-            ++m_length;
-        }
-        catch (...) {
-            throw ;
-        }
+        m_dices = realloc(m_dices, m_length + 1, m_length);
+        m_dices[m_length] = to_add;
+        ++m_length;
 
         return *this;
     }
 
     DiceGroup &DiceGroup::operator-= (int value) {
-        try {
-            dice::Dice cmp(value);
+        dice::Dice cmp(value);
 
-            dice::Dice *dices = nullptr;
-            int cnt = 0;
-            for (int i = 0; i < m_length; ++i) {
-                if (m_dices[i] == cmp) {
-                    continue;
-                }
-                else {
-                    dices = realloc(dices, cnt + 1, cnt);
-                    dices[cnt++] = m_dices[i];
-                }
+        dice::Dice *dices = nullptr;
+        int cnt = 0;
+        for (int i = 0; i < m_length; ++i) {
+            if (m_dices[i] == cmp) {
+                continue;
             }
+            else {
+                dices = realloc(dices, cnt + 1, cnt);
+                dices[cnt++] = m_dices[i];
+            }
+        }
 
-            delete[] m_dices;
-            m_dices = dices;
-            m_length = cnt;
-        }
-        catch (...) {
-            throw ;
-        }
+        delete[] m_dices;
+        m_dices = dices;
+        m_length = cnt;
 
         return *this;
     }
