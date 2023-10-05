@@ -125,7 +125,7 @@ namespace group {
          *
          * @return Integer value of desired sum
          */
-        size_t sumPoints();
+        int sumPoints() const;
 
         /**
          * @brief Check dice for presence
@@ -135,7 +135,7 @@ namespace group {
          * @param value Integer value of dice
          * @return Boolean depending on the presence
          */
-        bool checkIfPresent(int value);
+        bool checkIfPresent(int value) const;
 
         /**
          * @brief Get group's ASCII art
@@ -144,7 +144,7 @@ namespace group {
          *
          * @return String value of group of dices
          */
-        std::string getAscii();
+        std::string getAscii() const;
 
         /**
          * @brief Roll operator

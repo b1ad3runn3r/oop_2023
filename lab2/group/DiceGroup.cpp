@@ -131,8 +131,8 @@ namespace group {
     }
 
     // Methods
-    size_t DiceGroup::sumPoints() {
-        size_t sum = 0;
+    int DiceGroup::sumPoints() const {
+        int sum = 0;
         for (int i = 0; i < m_length; ++i) {
             sum += m_dices[i].getVal();
         }
@@ -140,7 +140,7 @@ namespace group {
         return sum;
     }
 
-    bool DiceGroup::checkIfPresent(int value) {
+    bool DiceGroup::checkIfPresent(int value) const {
         try {
             dice::Dice d(value);
             for (int i = 0; i < m_length; ++i) {
@@ -156,7 +156,7 @@ namespace group {
         return false;
     }
 
-    std::string DiceGroup::getAscii() {
+    std::string DiceGroup::getAscii() const {
         std::string res;
         for (int i = 0; i < m_length; ++i) {
             res += m_dices[i].getAscii();
