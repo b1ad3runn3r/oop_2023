@@ -167,15 +167,22 @@ namespace group {
     DiceGroup &DiceGroup::operator-= (int value) {
         dice::Dice cmp(value);
 
-        dice::Dice *dices = nullptr;
         int cnt = 0;
         for (int i = 0; i < m_length; ++i) {
-            if (m_dices[i] == cmp) {
-                continue;
+            if (m_dices[i] != cmp) {
+                ++cnt;
             }
-            else {
-                dices = realloc(dices, cnt + 1, cnt);
-                dices[cnt++] = m_dices[i];
+        }
+        dice::Dice *dices = nullptr;
+
+        if (cnt != 0) {
+            dices = new dice::Dice[cnt];
+        }
+
+        int new_cnt = 0;
+        for (int i = 0; (i < m_length) && cnt; ++i) {
+            if (m_dices[i] != cmp) {
+                dices[new_cnt++] = m_dices[i];
             }
         }
 
