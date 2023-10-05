@@ -231,7 +231,6 @@ namespace group {
 
     std::ostream &operator<< (std::ostream &out, const DiceGroup &dg) {
         for (int i = 0; i < dg.m_length; ++i) {
-            out << std::format("Dice №{} is :", i) << '\n';
             out << dg[i];
         }
 
