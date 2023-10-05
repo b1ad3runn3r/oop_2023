@@ -15,6 +15,15 @@ double d_probs[6] = {
         d_p
 };
 
+const std::string asciis[6] = {
+        "┌─────────┐\n│         │\n│    ●    │\n│         │\n└─────────┘",
+        "┌─────────┐\n│    ●    │\n│         │\n│    ●    │\n└─────────┘",
+        "┌─────────┐\n│ ●       │\n│    ●    │\n│       ● │\n└─────────┘",
+        "┌─────────┐\n│ ●     ● │\n│         │\n│ ●     ● │\n└─────────┘",
+        "┌─────────┐\n│ ●     ● │\n│    ●    │\n│ ●     ● │\n└─────────┘",
+        "┌─────────┐\n│ ●     ● │\n│ ●     ● │\n│ ●     ● │\n└─────────┘"
+};
+
 bool compare(const double arr1[], const double arr2[]) {
     for (int i = 0; i < 6; ++i) {
         if (arr1[i] != arr2[i]) {
@@ -91,9 +100,14 @@ TEST_CASE("Dice methods") {
         REQUIRE_THROWS(d.setVal(10));
     }
 
-    SECTION ("Methods") {
+    SECTION ("Roll") {
         dice::Dice d;
         REQUIRE_NOTHROW(d.roll());
+    }
+
+    SECTION ("ASCII art") {
+        dice::Dice d(4);
+        REQUIRE(d.getAscii() == asciis[3]);
     }
 
     SECTION ("Operators") {
@@ -103,6 +117,35 @@ TEST_CASE("Dice methods") {
 
         dice::Dice d3(2);
         REQUIRE_FALSE(d1 == d3);
+    }
+
+    SECTION ("Output operator") {
+        double values[6] = {0.1, 0.1, 0.1, 0.5, 0.1, 0.1};
+        dice::Dice d4(1, values);
+
+        std::ostringstream out;
+        out << d4;
+
+        std::ostringstream res;
+        res << 1 << '\n';
+        for (double value : values) {
+            res << value << ' ';
+        }
+        res << std::endl;
+
+        REQUIRE(res.str() == out.str());
+    }
+
+    SECTION ("Input operator") {
+        double values[6] = {0.1, 0.1, 0.1, 0.5, 0.1, 0.1};
+
+        std::string input = "1 0.1 0.1 0.1 0.5 0.1 0.1";
+        std::istringstream inp(input);
+        dice::Dice d;
+        inp >> d;
+
+        REQUIRE(d.getVal() == 1);
+        REQUIRE(compare(d.getProbs(), values) == true);
     }
 }
 
@@ -206,6 +249,19 @@ TEST_CASE ("Group methods") {
         REQUIRE(dg2.sumPoints() == 15);
     }
 
+    SECTION ("ASCII art") {
+        int values[2] = {3, 6};
+        group::DiceGroup dg(2, values);
+
+        std::string res;
+        for (int value : values) {
+            res += asciis[value - 1];
+            res += '\n';
+        }
+
+        REQUIRE(dg.getAscii() == res);
+    }
+
     SECTION ("Operators") {
         group::DiceGroup dg(4);
         REQUIRE_NOTHROW(dg());
@@ -246,6 +302,36 @@ TEST_CASE ("Group methods") {
         dg5 -= 5;
         REQUIRE(dg5.getSize() == 2);
         REQUIRE(compare_dice(dg5.getDices(), test, 2) == true);
+    }
+
+    SECTION ("Output operator") {
+        int values[2] = {1, 4};
+        group::DiceGroup dg(2, values);
+        std::ostringstream out;
+        out << dg;
+
+        std::ostringstream res;
+        for (int value : values) {
+            dice::Dice d(value);
+            res << d;
+        }
+
+        REQUIRE(res.str() == out.str());
+    }
+
+    SECTION ("Input operator") {
+        double values[6] = {0.1, 0.1, 0.1, 0.5, 0.1, 0.1};
+        double values2[6] = {0.05, 0.05, 0.3, 0.07, 0.03, 0.5};
+
+        std::string in1 = "2 1 0.1 0.1 0.1 0.5 0.1 0.1\n";
+        std::string in2 = "4 0.05 0.05 0.3 0.07 0.03 0.5";
+        std::istringstream inp(in1 + in2);
+        group::DiceGroup dg;
+        inp >> dg;
+
+        REQUIRE(dg.getSize() == 2);
+        REQUIRE(compare(dg[0].getProbs(), values));
+        REQUIRE(compare(dg[1].getProbs(), values2));
     }
 
     SECTION ("Operator exceptions") {
