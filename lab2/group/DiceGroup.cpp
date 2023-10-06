@@ -49,6 +49,7 @@ namespace group {
             }
         }
         catch (...) {
+            delete[] m_dices;
             throw ;
         }
     }
@@ -222,7 +223,7 @@ namespace group {
             dg.setDices(val, dices);
         }
         catch (...) {
-            throw;
+            in.setstate(std::ios_base::failbit);
         }
 
         return in;

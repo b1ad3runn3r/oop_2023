@@ -146,6 +146,10 @@ TEST_CASE("Dice methods") {
 
         REQUIRE(d.getVal() == 1);
         REQUIRE(compare(d.getProbs(), values) == true);
+
+        inp.str("1 1.0 1.0 1.0 1.0 1.0 1.0");
+        inp >> d;
+        REQUIRE(inp.fail());
     }
 }
 
@@ -188,9 +192,11 @@ TEST_CASE ("Group constructors") {
 
     SECTION ("Constructors exceptions") {
         int values[2] = {1, 1};
+        int values2[2] = {1, -1};
         REQUIRE_THROWS(group::DiceGroup(-5));
         REQUIRE_THROWS(group::DiceGroup(5, nullptr));
         REQUIRE_THROWS(group::DiceGroup(-2, values));
+        REQUIRE_THROWS(group::DiceGroup(2, values2));
     }
 }
 
@@ -332,6 +338,11 @@ TEST_CASE ("Group methods") {
         REQUIRE(dg.getSize() == 2);
         REQUIRE(compare(dg[0].getProbs(), values));
         REQUIRE(compare(dg[1].getProbs(), values2));
+
+        std::string in3 = "2 1 1.0 0.1 0.1 0.5 0.1 0.1 ";
+        inp.str(in3 + in2);
+        inp >> dg;
+        REQUIRE(inp.fail() == true);
     }
 
     SECTION ("Operator exceptions") {
