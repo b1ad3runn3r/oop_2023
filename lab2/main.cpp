@@ -18,24 +18,24 @@ int main() {
             option = dialog::getNum<int>(0, 9);
 
             switch (option) {
-                case 0: // Quit
+                case dialog::QUIT:
                     break;
 
-                case 1: // Input dice group
+                case dialog::INPUT:
                     std::cin >> dg;
                     break;
 
-                case 2: // Output dice group
+                case dialog::OUTPUT:
                     std::cout << dg << std::endl;
                     break;
 
-                case 3: // Roll all dices
+                case dialog::ROLL:
                     dg();
                     std::cout << "Group values are: " << std::endl;
                     std::cout << dg.getAscii() << std::endl;
                     break;
 
-                case 4: // Roll a specific dice
+                case dialog::ROLL_WITH_POS:
                     std::cout << "Enter desired value: ";
                     tmp_value = dialog::getNum<int>(0, dg.getSize() - 1);
                     dg(tmp_value);
@@ -43,7 +43,7 @@ int main() {
                     std::cout << dg[tmp_value].getAscii() << std::endl;
                     break;
 
-                case 5: // Add dice to group
+                case dialog::ADD:
                     std::cout << "Input value to be added: " << std::endl;
                     tmp_value = dialog::getNum<int>(1, 6);
                     d.setVal(tmp_value);
@@ -53,7 +53,7 @@ int main() {
                     std::cout << dg.getAscii() << std::endl;
                     break;
 
-                case 6: // Purge value from group
+                case dialog::PURGE:
                     std::cout << "Input value to be purged: " << std::endl;
                     tmp_value = dialog::getNum<int>(1, 6);
 
@@ -62,11 +62,11 @@ int main() {
                     std::cout << dg.getAscii() << std::endl;
                     break;
 
-                case 7: // Get sum of points in group
+                case dialog::SUM_POINTS:
                     std::cout << "Sum of the points is: " << dg.sumPoints() << std::endl;
                     break;
 
-                case 8: // Check if dice is present
+                case dialog::CHECK_PRESENCE:
                     std::cout << "Enter value of dice: ";
 
                     tmp_value = dialog::getNum<int>(1, 6);
@@ -78,7 +78,7 @@ int main() {
                     }
                     break;
 
-                case 9: // Print menu
+                case dialog::MENU:
                     std::cout << dialog::menu << std::endl;
                     break;
             }

@@ -34,6 +34,19 @@ namespace dialog {
             "8. Check if dice is present\n"
             "9. Print menu\n";
 
+    enum OPTIONS {
+        QUIT = 0,
+        INPUT = 1,
+        OUTPUT = 2,
+        ROLL = 3,
+        ROLL_WITH_POS = 4,
+        ADD = 5,
+        PURGE = 6,
+        SUM_POINTS = 7,
+        CHECK_PRESENCE = 8,
+        MENU = 9
+    };
+
     template <typename T>
     T getNum(T min = std::numeric_limits<T>::min(), T max = std::numeric_limits<T>::max()) {
         T a;
