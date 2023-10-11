@@ -197,7 +197,15 @@ namespace group {
         return *this;
     }
 
-    dice::Dice &DiceGroup::operator[] (int idx) const {
+    dice::Dice &DiceGroup::operator[] (int idx) {
+        if (idx < 0 || idx >= m_length) {
+            throw std::invalid_argument("Invalid index!");
+        }
+
+        return m_dices[idx];
+    }
+
+    const dice::Dice &DiceGroup::operator[] (int idx) const {
         if (idx < 0 || idx >= m_length) {
             throw std::invalid_argument("Invalid index!");
         }

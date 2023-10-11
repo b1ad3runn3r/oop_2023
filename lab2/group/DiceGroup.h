@@ -193,9 +193,19 @@ namespace group {
          *
          * @param idx Integer value of index
          * @throw invalid_argument if value is less than 0 or bigger than m_length - 1
-         * @return Altered group instance
+         * @return Reference to altered group
          */
-        dice::Dice &operator[] (int idx) const;
+        dice::Dice &operator[] (int idx);
+
+        /**
+         * @brief Get dice by index (const)
+         *
+         * Access dice from group by index (const)
+         * @param idx Integer value of index
+         * @throw invalid_argument if value is less than 0 or bigger than m_length - 1
+         * @return Const reference to altered group
+         */
+        const dice::Dice &operator[] (int idx) const;
 
         /**
          * @brief Print class
