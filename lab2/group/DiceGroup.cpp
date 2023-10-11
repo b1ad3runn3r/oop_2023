@@ -4,9 +4,9 @@
 
 namespace group {
     // Private methods
-    dice::Dice *DiceGroup::realloc(dice::Dice *old_ptr, int new_len, int old_len) {
+    dice::Dice *DiceGroup::realloc(dice::Dice *old_ptr, ssize_t new_len, ssize_t old_len) {
         auto *new_ptr = new dice::Dice[new_len];
-        int to_copy = (new_len > old_len) ? old_len : new_len;
+        ssize_t to_copy = (new_len > old_len) ? old_len : new_len;
 
         std::copy(old_ptr, old_ptr + to_copy, new_ptr);
         delete[] old_ptr;
@@ -20,7 +20,7 @@ namespace group {
         m_dices = nullptr;
     }
 
-    DiceGroup::DiceGroup(int num_dices) {
+    DiceGroup::DiceGroup(ssize_t num_dices) {
         if (num_dices < 0) {
             throw std::invalid_argument("Invalid group size!");
         }
@@ -32,7 +32,7 @@ namespace group {
         }
     }
 
-    DiceGroup::DiceGroup(int num_dices, int values[]) {
+    DiceGroup::DiceGroup(ssize_t num_dices, int values[]) {
         if (values == nullptr) {
             throw std::invalid_argument("Invalid values ptr");
         }
@@ -77,12 +77,12 @@ namespace group {
         return m_dices;
     }
 
-    int DiceGroup::getSize() const {
+    ssize_t DiceGroup::getSize() const {
         return m_length;
     }
 
     // Setters
-    void DiceGroup::setDices(int size, const dice::Dice *dices) {
+    void DiceGroup::setDices(ssize_t size, const dice::Dice *dices) {
         if (dices == nullptr) {
             throw std::invalid_argument("Dices can't be nullptr!");
         }
@@ -97,7 +97,7 @@ namespace group {
         m_length = size;
     }
 
-    void DiceGroup::setSize(int size) {
+    void DiceGroup::setSize(ssize_t size) {
         if (size < 0) {
             throw std::invalid_argument("Invalid group size!");
         }
@@ -151,7 +151,7 @@ namespace group {
         return *this;
     }
 
-    DiceGroup &DiceGroup::operator() (int pos) {
+    DiceGroup &DiceGroup::operator() (ssize_t pos) {
         if (pos < 0 || pos >= m_length) {
             throw std::invalid_argument("Invalid position!");
         }
@@ -197,7 +197,7 @@ namespace group {
         return *this;
     }
 
-    dice::Dice &DiceGroup::operator[] (int idx) {
+    dice::Dice &DiceGroup::operator[] (ssize_t idx) {
         if (idx < 0 || idx >= m_length) {
             throw std::invalid_argument("Invalid index!");
         }
@@ -205,7 +205,7 @@ namespace group {
         return m_dices[idx];
     }
 
-    const dice::Dice &DiceGroup::operator[] (int idx) const {
+    const dice::Dice &DiceGroup::operator[] (ssize_t idx) const {
         if (idx < 0 || idx >= m_length) {
             throw std::invalid_argument("Invalid index!");
         }

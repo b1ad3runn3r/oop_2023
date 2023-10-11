@@ -8,7 +8,7 @@ namespace group {
     class DiceGroup {
     private:
         dice::Dice *m_dices;
-        int m_length;
+        ssize_t m_length;
 
         /**
          * @brief Realloc function for DiceGroup
@@ -20,7 +20,7 @@ namespace group {
          * @param old_len Old length of array
          * @return New pointer
          */
-        static dice::Dice *realloc(dice::Dice *old_ptr, int new_len, int old_len);
+        static dice::Dice *realloc(dice::Dice *old_ptr, ssize_t new_len, ssize_t old_len);
     public:
         /**
          * @brief Default constructor for DiceGroup
@@ -38,7 +38,7 @@ namespace group {
          * @param num_dices Integer value of number of dices
          * @throw invalid_argument if num_dices is incorrect (<0)
          */
-        explicit DiceGroup(int num_dices);
+        explicit DiceGroup(ssize_t num_dices);
 
         /**
          * @brief Constructor from values and number of dices
@@ -50,7 +50,7 @@ namespace group {
          * @throw invalid_argument if num_dices is < 0
          * @throw invalid_argument if values is nullptr
          */
-        DiceGroup(int num_dices, int values[]);
+        DiceGroup(ssize_t num_dices, int values[]);
 
         /**
          * @brief Copy constructor
@@ -94,7 +94,7 @@ namespace group {
          *
          * @return Integer value of m_length field
          */
-        int getSize() const;
+        ssize_t getSize() const;
 
         /**
          * @brief Setter of dices field
@@ -106,7 +106,7 @@ namespace group {
          * @throw invalid_argument if size is less than 0
          * @throw invalid_argument if dices is nullptr
          */
-        void setDices(int size, const dice::Dice *dices);
+        void setDices(ssize_t size, const dice::Dice *dices);
 
         /**
          * @brief Setter of number of dices field
@@ -116,7 +116,7 @@ namespace group {
          * @param size Integer value of new number of dices
          * @throw invalid_argument if size is less than 0
          */
-        void setSize(int size);
+        void setSize(ssize_t size);
 
         /**
          * @brief Get sum of points
@@ -163,7 +163,7 @@ namespace group {
          * @throw invalid_argument if position is less than zero
          * @return Reference to itself after update
          */
-        DiceGroup &operator()(int pos);
+        DiceGroup &operator()(ssize_t pos);
 
         /**
          * @brief Add dice to group
@@ -195,7 +195,7 @@ namespace group {
          * @throw invalid_argument if value is less than 0 or bigger than m_length - 1
          * @return Reference to altered group
          */
-        dice::Dice &operator[] (int idx);
+        dice::Dice &operator[] (ssize_t idx);
 
         /**
          * @brief Get dice by index (const)
@@ -205,7 +205,7 @@ namespace group {
          * @throw invalid_argument if value is less than 0 or bigger than m_length - 1
          * @return Const reference to altered group
          */
-        const dice::Dice &operator[] (int idx) const;
+        const dice::Dice &operator[] (ssize_t idx) const;
 
         /**
          * @brief Print class
