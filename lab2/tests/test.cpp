@@ -147,6 +147,7 @@ TEST_CASE("Dice methods") {
         REQUIRE(d.getVal() == 1);
         REQUIRE(compare(d.getProbs(), values) == true);
 
+        inp.clear();
         inp.str("1 1.0 1.0 1.0 1.0 1.0 1.0");
         inp >> d;
         REQUIRE(inp.fail());
@@ -329,17 +330,21 @@ TEST_CASE ("Group methods") {
         double values[6] = {0.1, 0.1, 0.1, 0.5, 0.1, 0.1};
         double values2[6] = {0.05, 0.05, 0.3, 0.07, 0.03, 0.5};
 
-        std::string in1 = "2 1 0.1 0.1 0.1 0.5 0.1 0.1\n";
-        std::string in2 = "4 0.05 0.05 0.3 0.07 0.03 0.5";
+        std::string in1 = "2 1 0.1 0.1 0.1 0.5 0.1 0.1\n ";
+        std::string in2 = "4 0.05 0.05 0.3 0.07 0.03 0.5\n";
         std::istringstream inp(in1 + in2);
         group::DiceGroup dg;
         inp >> dg;
 
+        REQUIRE(inp.fail() == false);
         REQUIRE(dg.getSize() == 2);
+        REQUIRE(dg[0].getVal() == 1);
+        REQUIRE(dg[1].getVal() == 4);
         REQUIRE(compare(dg[0].getProbs(), values));
         REQUIRE(compare(dg[1].getProbs(), values2));
 
-        std::string in3 = "2 1 1.0 0.1 0.1 0.5 0.1 0.1 ";
+        std::string in3 = "-2 1 1.0 0.1 0.1 0.5 0.1 0.1\n";
+        inp.clear();
         inp.str(in3 + in2);
         inp >> dg;
         REQUIRE(inp.fail() == true);

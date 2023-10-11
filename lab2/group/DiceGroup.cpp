@@ -222,16 +222,15 @@ namespace group {
     }
 
     std::istream &operator>> (std::istream &in, DiceGroup &dg) {
-        int val;
+        int length;
         try {
-            in >> val;
+            in >> length;
 
-            auto *dices = new dice::Dice[val];
-            for (int i = 0; i < val; ++i) {
-                in >> dices[i];
+            dg.setSize(length);
+
+            for (int i = 0; i < length; ++i) {
+                in >> dg.m_dices[i];
             }
-
-            dg.setDices(val, dices);
         }
         catch (...) {
             in.setstate(std::ios_base::failbit);
