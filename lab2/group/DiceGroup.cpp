@@ -143,18 +143,21 @@ namespace group {
     }
 
     // Operators overloading
-    void DiceGroup::operator() () {
+    DiceGroup &DiceGroup::operator() () {
         for (int i = 0; i < m_length; ++i) {
             m_dices[i].roll();
         }
+
+        return *this;
     }
 
-    void DiceGroup::operator() (int pos) {
+    DiceGroup &DiceGroup::operator() (int pos) {
         if (pos < 0 || pos >= m_length) {
             throw std::invalid_argument("Invalid position!");
         }
 
         m_dices[pos].roll();
+        return *this;
     }
 
     DiceGroup &DiceGroup::operator+= (const dice::Dice &to_add) {

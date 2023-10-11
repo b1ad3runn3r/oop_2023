@@ -150,9 +150,9 @@ namespace group {
          * @brief Roll operator
          *
          * Roll every dice in the group, changing their values
-         *
+         * @return Reference to itself after update
          */
-        void operator()();
+        DiceGroup &operator()();
 
         /**
          * @brief Roll a specific dice
@@ -161,8 +161,9 @@ namespace group {
          *
          * @param pos Integer value of position
          * @throw invalid_argument if position is less than zero
+         * @return Reference to itself after update
          */
-        void operator()(int pos);
+        DiceGroup &operator()(int pos);
 
         /**
          * @brief Add dice to group
