@@ -73,11 +73,11 @@ namespace group {
     }
 
     // Getters
-    dice::Dice *DiceGroup::getDices() const {
+    dice::Dice *DiceGroup::getDices() const noexcept {
         return m_dices;
     }
 
-    ssize_t DiceGroup::getSize() const {
+    ssize_t DiceGroup::getSize() const noexcept {
         return m_length;
     }
 
@@ -107,7 +107,7 @@ namespace group {
     }
 
     // Methods
-    int DiceGroup::sumPoints() const {
+    int DiceGroup::sumPoints() const noexcept {
         int sum = 0;
         for (int i = 0; i < m_length; ++i) {
             sum += m_dices[i].getVal();
@@ -117,16 +117,11 @@ namespace group {
     }
 
     bool DiceGroup::checkIfPresent(int value) const {
-        try {
-            dice::Dice d(value);
-            for (int i = 0; i < m_length; ++i) {
-                if (m_dices[i] == d) {
-                    return true;
-                }
+        dice::Dice d(value);
+        for (int i = 0; i < m_length; ++i) {
+            if (m_dices[i] == d) {
+                return true;
             }
-        }
-        catch (...) {
-            throw ;
         }
 
         return false;
@@ -143,7 +138,7 @@ namespace group {
     }
 
     // Operators overloading
-    DiceGroup &DiceGroup::operator() () {
+    DiceGroup &DiceGroup::operator() () noexcept {
         for (int i = 0; i < m_length; ++i) {
             m_dices[i].roll();
         }
@@ -213,7 +208,7 @@ namespace group {
         return m_dices[idx];
     }
 
-    std::ostream &operator<< (std::ostream &out, const DiceGroup &dg) {
+    std::ostream &operator<< (std::ostream &out, const DiceGroup &dg) noexcept {
         for (int i = 0; i < dg.m_length; ++i) {
             out << dg[i];
         }
@@ -221,7 +216,7 @@ namespace group {
         return out;
     }
 
-    std::istream &operator>> (std::istream &in, DiceGroup &dg) {
+    std::istream &operator>> (std::istream &in, DiceGroup &dg) noexcept {
         int length;
         try {
             in >> length;

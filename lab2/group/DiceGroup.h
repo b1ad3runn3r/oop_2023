@@ -85,7 +85,7 @@ namespace group {
          *
          * @return Pointer to m_dices field
          */
-        dice::Dice *getDices() const;
+        dice::Dice *getDices() const noexcept;
 
         /**
          * @brief Getter of number of dices
@@ -94,7 +94,7 @@ namespace group {
          *
          * @return Integer value of m_length field
          */
-        ssize_t getSize() const;
+        ssize_t getSize() const noexcept;
 
         /**
          * @brief Setter of dices field
@@ -125,7 +125,7 @@ namespace group {
          *
          * @return Integer value of desired sum
          */
-        int sumPoints() const;
+        int sumPoints() const noexcept;
 
         /**
          * @brief Check dice for presence
@@ -152,7 +152,7 @@ namespace group {
          * Roll every dice in the group, changing their values
          * @return Reference to itself after update
          */
-        DiceGroup &operator()();
+        DiceGroup &operator()() noexcept;
 
         /**
          * @brief Roll a specific dice
@@ -216,7 +216,7 @@ namespace group {
          * @param dg Reference to group instance to be printed
          * @return Altered output stream reference
          */
-        friend std::ostream &operator<< (std::ostream &out, const DiceGroup &dg);
+        friend std::ostream &operator<< (std::ostream &out, const DiceGroup &dg) noexcept;
 
         /**
          * @brief Input class
@@ -227,7 +227,7 @@ namespace group {
          * @param dg Reference to group instance to be changed
          * @return Altered input stream reference
          */
-        friend std::istream &operator>> (std::istream &in, DiceGroup &dg);
+        friend std::istream &operator>> (std::istream &in, DiceGroup &dg) noexcept;
 
         /**
          * @brief Copy assignment operator
