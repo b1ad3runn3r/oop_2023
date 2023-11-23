@@ -1,0 +1,7 @@
+build*
+!build.bash
+.idea
+.PVS-Studio*
+.vscode*
+docs
+
