@@ -1,0 +1,21 @@
+<RCC>
+  <qresource prefix="/">
+    <file>../assets/images/app_icon.png</file>
+    <file>../assets/images/copy.png</file>
+    <file>../assets/images/run.png</file>
+    <file>../assets/images/create.png</file>
+    <file>../assets/images/cut.png</file>
+    <file>../assets/images/edit_redo.png</file>
+    <file>../assets/images/edit_undo.png</file>
+    <file>../assets/images/exit.png</file>
+    <file>../assets/images/info.png</file>
+    <file>../assets/images/new.png</file>
+    <file>../assets/images/open.png</file>
+    <file>../assets/images/paste.png</file>
+    <file>../assets/images/pencil.png</file>
+    <file>../assets/images/save_as.png</file>
+    <file>../assets/images/save.png</file>
+    <file>../assets/images/zoom_in.png</file>
+    <file>../assets/images/zoom_out.png</file>
+  </qresource>
+</RCC>
