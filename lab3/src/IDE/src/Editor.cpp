@@ -7,17 +7,16 @@
 #include <QDir>
 #include <QStatusBar>
 #include <QTextDocument>
-#include <QDesktopServices>
 #include <QClipboard>
 
-#include "notepad.h"
-#include "ui_notepad.h"
+#include "Editor.h"
+#include "ui_Editor.h"
 
 #include "config.h"
 
-Notepad::Notepad(QWidget *parent):
+Editor::Editor(QWidget *parent):
     QMainWindow(parent),
-    ui(new Ui::Notepad) {
+    ui(new Ui::Editor) {
     ui->setupUi(this);
     this->setCentralWidget(ui->textEdit);
 
@@ -25,21 +24,20 @@ Notepad::Notepad(QWidget *parent):
 
     createStatusBar();
 
-    connect(ui->actionNew, &QAction::triggered, this, &Notepad::newDocument);
-    connect(ui->actionOpen, &QAction::triggered, this, &Notepad::open);
-    connect(ui->actionSave, &QAction::triggered, this, &Notepad::save);
-    connect(ui->actionSave_as, &QAction::triggered, this, &Notepad::saveAs);
-    connect(ui->actionExit, &QAction::triggered, this, &Notepad::exit);
-    connect(ui->actionCopy, &QAction::triggered, this, &Notepad::copy);
-    connect(ui->actionCut, &QAction::triggered, this, &Notepad::cut);
-    connect(ui->actionPaste, &QAction::triggered, this, &Notepad::paste);
-    connect(ui->actionUndo, &QAction::triggered, this, &Notepad::undo);
-    connect(ui->actionRedo, &QAction::triggered, this, &Notepad::redo);
-    connect(ui->actionZoomOut, &QAction::triggered, this, &Notepad::zoomOut);
-    connect(ui->actionZoomIn, &QAction::triggered, this, &Notepad::zoomIn);
-    connect(ui->actionAbout, &QAction::triggered, this, &Notepad::about);
-    connect(ui->actionRun, &QAction::triggered, this, &Notepad::run);
-    connect(ui->textEdit->document(), &QTextDocument::contentsChanged, this, &Notepad::documentWasModified);
+    connect(ui->actionNew,              &QAction::triggered,                this, &Editor::newDocument);
+    connect(ui->actionOpen,             &QAction::triggered,                this, &Editor::open);
+    connect(ui->actionSave,             &QAction::triggered,                this, &Editor::save);
+    connect(ui->actionSave_as,          &QAction::triggered,                this, &Editor::saveAs);
+    connect(ui->actionExit,             &QAction::triggered,                this, &Editor::exit);
+    connect(ui->actionCopy,             &QAction::triggered,                this, &Editor::copy);
+    connect(ui->actionCut,              &QAction::triggered,                this, &Editor::cut);
+    connect(ui->actionPaste,            &QAction::triggered,                this, &Editor::paste);
+    connect(ui->actionUndo,             &QAction::triggered,                this, &Editor::undo);
+    connect(ui->actionRedo,             &QAction::triggered,                this, &Editor::redo);
+    connect(ui->actionZoomOut,          &QAction::triggered,                this, &Editor::zoomOut);
+    connect(ui->actionZoomIn,           &QAction::triggered,                this, &Editor::zoomIn);
+    connect(ui->actionRun,              &QAction::triggered,                this, &Editor::run);
+    connect(ui->textEdit->document(),   &QTextDocument::contentsChanged,    this, &Editor::documentWasModified);
 
     QFont font;
 
@@ -49,10 +47,8 @@ Notepad::Notepad(QWidget *parent):
     font.setPointSize(font_size);
 
     ui->textEdit->setFont(font);
-
     ui->textEdit->setAcceptRichText(false);
 
-    // Open file from command line argument
     if (QApplication::arguments().size() > 1) {
     QString fileName = QApplication::arguments().at(1);
     QFile file(fileName);
@@ -61,13 +57,12 @@ Notepad::Notepad(QWidget *parent):
         QMessageBox::warning(this, "Warning", "Cannot open file: " + file.errorString());
         return;
     }
-      //QTextStream in(&file);
-      //QString text = in.readAll();
+
     QString text = QString::fromUtf8(file.readAll());
     ui->textEdit->setText(text);
     ui->textEdit->document()->setModified(false);
     setWindowModified(false);
-    setWindowTitle(QString("[*]") + fileName + QString(" — Notepad"));
+    setWindowTitle(QString("[*]") + fileName + QString(" — YAAI"));
     file.close();
     statusBar()->showMessage("File opened", status_bar_message_timeout);
     }
@@ -75,39 +70,38 @@ Notepad::Notepad(QWidget *parent):
     ui->textEdit->setTabStopDistance(tab_size * 10);
 }
 
-Notepad::~Notepad() {
+Editor::~Editor() {
     delete ui;
 }
 
-void Notepad::createStatusBar() {
-    statusBar()->showMessage("Notepad");
+void Editor::createStatusBar() {
+    statusBar()->showMessage("YAAI");
 }
 
-void Notepad::newDocument() {
+void Editor::newDocument() {
     currentFile.clear();
     ui->textEdit->setText(QString());
 }
 
-void Notepad::open() {
-    QString fileName = QFileDialog::getOpenFileName(this, "Open the file", QDir::homePath(), "Text files (*.txt);;All files (*)");
+void Editor::open() {
+    QString fileName = QFileDialog::getOpenFileName(this, "Open the file", QDir::homePath(), "Assembly files (*.asm);;All files (*)");
     QFile file(fileName);
     currentFile = fileName;
     if (!file.open(QIODevice::ReadOnly | QFile::Text)) {
         QMessageBox::warning(this, "Warning", "Cannot open file: " + file.errorString());
         return;
     }
-  //QTextStream in(&file);
-  //QString text = in.readAll();
+
     QString text = QString::fromUtf8(file.readAll());
     ui->textEdit->setText(text);
     ui->textEdit->document()->setModified(false);
     setWindowModified(false);
-    setWindowTitle(QString("[*]") + fileName + QString(" — Notepad"));
+    setWindowTitle(QString("[*]") + fileName + QString(" — Editor"));
     file.close();
     statusBar()->showMessage("File opened", status_bar_message_timeout);
 }
 
-void Notepad::save() {
+void Editor::save() {
     QString fileName;
     if (currentFile.isEmpty()) {
         fileName = QFileDialog::getSaveFileName(this, "Save", QDir::homePath(), "Text files (*.txt);;All files (*)");
@@ -121,19 +115,17 @@ void Notepad::save() {
         QMessageBox::warning(this, "Warning", "Cannot save file: " + file.errorString());
         return;
     }
-  //QTextStream out(&file);
-  //QString text = ui->textEdit->toPlainText();
+
     file.write(ui->textEdit->toPlainText().toUtf8());
-    //out << text;
     ui->textEdit->document()->setModified(false);
     setWindowModified(false);
-    setWindowTitle(QString("[*]") + fileName + QString(" — Notepad"));
+    setWindowTitle(QString("[*]") + fileName + QString(" — YAAI"));
     file.close();
     statusBar()->showMessage("File saved", status_bar_message_timeout);
 }
 
-void Notepad::saveAs() {
-    QString fileName = QFileDialog::getSaveFileName(this, "Save as", QDir::homePath(), "Text files (*.txt);;All files (*)");
+void Editor::saveAs() {
+    QString fileName = QFileDialog::getSaveFileName(this, "Save as", QDir::homePath(), "Assembly files (*.asm);;All files (*)");
     QFile file(fileName);
 
     if (!file.open(QFile::WriteOnly | QFile::Text)) {
@@ -142,63 +134,51 @@ void Notepad::saveAs() {
 }
 
     currentFile = fileName;
-    //QTextStream out(&file);
-    //QString text = ui->textEdit->toPlainText();
+
     file.write(ui->textEdit->toPlainText().toUtf8());
-    //out << text;
     ui->textEdit->document()->setModified(false);
     setWindowModified(false);
-    setWindowTitle(QString("[*]") + fileName + QString(" — Notepad"));
+    setWindowTitle(QString("[*]") + fileName + QString(" — YAAI"));
     file.close();
     statusBar()->showMessage("File saved", status_bar_message_timeout);
 }
 
-void Notepad::exit() {
+void Editor::exit() {
     QCoreApplication::quit();
 }
 
-void Notepad::copy() {
+void Editor::copy() {
     ui->textEdit->copy();
 }
 
-void Notepad::cut() {
+void Editor::cut() {
     ui->textEdit->cut();
 }
 
-void Notepad::paste() {
+void Editor::paste() {
     ui->textEdit->paste();
 }
 
-void Notepad::undo() {
+void Editor::undo() {
     ui->textEdit->undo();
 }
 
-void Notepad::redo() {
+void Editor::redo() {
     ui->textEdit->redo();
 }
 
-void Notepad::zoomOut() {
+void Editor::zoomOut() {
     ui->textEdit->zoomOut(zoom_range);
 }
 
-void Notepad::zoomIn() {
+void Editor::zoomIn() {
     ui->textEdit->zoomIn(zoom_range);
 }
 
-void Notepad::about() {
-    QString about_message = QString("<h3>Yet another assembly IDE</h3>")
-                        + QString("<br><br><br>Simple text editor. Based on <a href='https://code.qt.io/cgit/qt/qtbase.git/tree/examples/widgets/tutorials/notepad?h=6.5'>official Qt6 Notepad example</a>.")
-                        + QString("<br><br>Source code is available on [DATA EXPUNGED]")
-                        + QString("<br><br><br>Qt version: ")
-                        + QT_VERSION_STR;
-
-    QMessageBox::about(this, "About", about_message);
-}
-
-void Notepad::run() {
+void Editor::run() {
     return ;
 }
 
-void Notepad::documentWasModified() {
+void Editor::documentWasModified() {
     setWindowModified(ui->textEdit->document()->isModified());
 }

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>Notepad</class>
- <widget class="QMainWindow" name="Notepad">
+ <class>Editor</class>
+ <widget class="QMainWindow" name="Editor">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Notepad</string>
+   <string>Editor</string>
   </property>
   <widget class="QWidget" name="centralWidget">
    <layout class="QVBoxLayout" name="verticalLayout">
@@ -56,16 +56,8 @@
     <addaction name="separator"/>
     <addaction name="actionRun"/>
    </widget>
-   <widget class="QMenu" name="menuHelp">
-    <property name="title">
-     <string>Help</string>
-    </property>
-    <addaction name="separator"/>
-    <addaction name="actionAbout"/>
-   </widget>
    <addaction name="menuFile"/>
    <addaction name="menuEdit"/>
-   <addaction name="menuHelp"/>
   </widget>
   <widget class="QToolBar" name="mainToolBar">
    <attribute name="toolBarArea">
@@ -90,14 +82,13 @@
    <addaction name="actionZoomOut"/>
    <addaction name="actionZoomIn"/>
    <addaction name="separator"/>
-   <addaction name="actionAbout"/>
    <addaction name="separator"/>
    <addaction name="actionExit"/>
   </widget>
   <widget class="QStatusBar" name="statusBar"/>
   <action name="actionNew">
    <property name="icon">
-    <iconset resource="notepad.qrc">
+    <iconset resource="Editor.qrc">
      <normaloff>:/assets/images/new.png</normaloff>:/assets/images/new.png</iconset>
    </property>
    <property name="text">
@@ -115,7 +106,7 @@
   </action>
   <action name="actionOpen">
    <property name="icon">
-    <iconset resource="notepad.qrc">
+    <iconset resource="Editor.qrc">
      <normaloff>:/assets/images/open.png</normaloff>:/assets/images/open.png</iconset>
    </property>
    <property name="text">
@@ -133,7 +124,7 @@
   </action>
   <action name="actionSave">
    <property name="icon">
-    <iconset resource="notepad.qrc">
+    <iconset resource="Editor.qrc">
      <normaloff>:/assets/images/save.png</normaloff>:/assets/images/save.png</iconset>
    </property>
    <property name="text">
@@ -151,7 +142,7 @@
   </action>
   <action name="actionSave_as">
    <property name="icon">
-    <iconset resource="notepad.qrc">
+    <iconset resource="Editor.qrc">
      <normaloff>:/assets/images/save_as.png</normaloff>:/assets/images/save_as.png</iconset>
    </property>
    <property name="text">
@@ -169,14 +160,14 @@
   </action>
   <action name="actionExit">
    <property name="icon">
-    <iconset resource="notepad.qrc">
+    <iconset resource="Editor.qrc">
      <normaloff>:/assets/images/exit.png</normaloff>:/assets/images/exit.png</iconset>
    </property>
    <property name="text">
     <string>Exit</string>
    </property>
    <property name="toolTip">
-    <string>Exit Notepad</string>
+    <string>Exit Editor</string>
    </property>
    <property name="statusTip">
     <string>Exit the application</string>
@@ -187,7 +178,7 @@
   </action>
   <action name="actionCopy">
    <property name="icon">
-    <iconset resource="notepad.qrc">
+    <iconset resource="Editor.qrc">
      <normaloff>:/assets/images/copy.png</normaloff>:/assets/images/copy.png</iconset>
    </property>
    <property name="text">
@@ -202,7 +193,7 @@
   </action>
   <action name="actionCut">
    <property name="icon">
-    <iconset resource="notepad.qrc">
+    <iconset resource="Editor.qrc">
      <normaloff>:/assets/images/cut.png</normaloff>:/assets/images/cut.png</iconset>
    </property>
    <property name="text">
@@ -217,7 +208,7 @@
   </action>
   <action name="actionPaste">
    <property name="icon">
-    <iconset resource="notepad.qrc">
+    <iconset resource="Editor.qrc">
      <normaloff>:/assets/images/paste.png</normaloff>:/assets/images/paste.png</iconset>
    </property>
    <property name="text">
@@ -232,7 +223,7 @@
   </action>
   <action name="actionUndo">
    <property name="icon">
-    <iconset resource="notepad.qrc">
+    <iconset resource="Editor.qrc">
      <normaloff>:/assets/images/edit_undo.png</normaloff>:/assets/images/edit_undo.png</iconset>
    </property>
    <property name="text">
@@ -247,7 +238,7 @@
   </action>
   <action name="actionRedo">
    <property name="icon">
-    <iconset resource="notepad.qrc">
+    <iconset resource="Editor.qrc">
      <normaloff>:/assets/images/edit_redo.png</normaloff>:/assets/images/edit_redo.png</iconset>
    </property>
    <property name="text">
@@ -262,7 +253,7 @@
   </action>
   <action name="actionZoomOut">
    <property name="icon">
-    <iconset resource="notepad.qrc">
+    <iconset resource="Editor.qrc">
      <normaloff>:/assets/images/zoom_out.png</normaloff>:/assets/images/zoom_out.png</iconset>
    </property>
    <property name="text">
@@ -277,7 +268,7 @@
   </action>
   <action name="actionZoomIn">
    <property name="icon">
-    <iconset resource="notepad.qrc">
+    <iconset resource="Editor.qrc">
      <normaloff>:/assets/images/zoom_in.png</normaloff>:/assets/images/zoom_in.png</iconset>
    </property>
    <property name="text">
@@ -292,22 +283,22 @@
   </action>
   <action name="actionAbout">
    <property name="icon">
-    <iconset resource="notepad.qrc">
+    <iconset resource="Editor.qrc">
      <normaloff>:/assets/images/info.png</normaloff>:/assets/images/info.png</iconset>
    </property>
    <property name="text">
     <string>About</string>
    </property>
    <property name="toolTip">
-    <string>About Notepad</string>
+    <string>About Editor</string>
    </property>
    <property name="statusTip">
-    <string>Show info about Notepad</string>
+    <string>Show info about Editor</string>
    </property>
   </action>
   <action name="actionRun">
    <property name="icon">
-    <iconset resource="notepad.qrc">
+    <iconset resource="Editor.qrc">
      <normaloff>:/assets/images/run.png</normaloff>:/assets/images/run.png</iconset>
    </property>
    <property name="text">
@@ -323,7 +314,7 @@
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <resources>
-  <include location="notepad.qrc"/>
+  <include location="Editor.qrc"/>
  </resources>
  <connections/>
 </ui>

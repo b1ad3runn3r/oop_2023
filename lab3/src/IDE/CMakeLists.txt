@@ -9,10 +9,10 @@ set(CMAKE_AUTOUIC ON)
 add_executable(ide
         src/app.cpp
         src/config.h
-        src/notepad.cpp
-        src/notepad.h
-        src/notepad.ui
-        src/notepad.qrc)
+        src/Editor.cpp
+        src/Editor.h
+        src/Editor.ui
+        src/Editor.qrc)
 
 target_link_libraries(ide
         Qt6::Core

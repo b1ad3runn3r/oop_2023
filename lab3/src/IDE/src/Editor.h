@@ -5,15 +5,15 @@
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
-    class Notepad;
+    class Editor;
 }
 QT_END_NAMESPACE
 
-class Notepad: public QMainWindow {
+class Editor: public QMainWindow {
     Q_OBJECT
     public:
-        explicit Notepad(QWidget *parent = nullptr);
-        ~Notepad() override;
+        explicit Editor(QWidget *parent = nullptr);
+        ~Editor() override;
 
     private slots:
         void newDocument();
@@ -28,12 +28,11 @@ class Notepad: public QMainWindow {
         void redo();
         void zoomOut();
         void zoomIn();
-        void about();
         static void run();
         void documentWasModified();
 
     private:
-        Ui::Notepad *ui;
+        Ui::Editor *ui;
         QString currentFile;
         void createStatusBar();
 };
