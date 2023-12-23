@@ -11,20 +11,29 @@ using Vector = std::vector<T>;
 class RegisterBlock {
 public: 
 
-RegisterBlock(size_t block_size);
-~RegisterBlock();
+explicit RegisterBlock(size_t block_size) : registers(block_size) {};
 
-Register& get_reg(size_t size) const;
+[[nodiscard]] const Register& get_reg(size_t idx) const { return registers.at(idx); };
 
-void set_reg(size_t idx);
+Register& get_reg(size_t idx) { return registers.at(idx); };
 
-void lock_reg(size_t idx);
+[[nodiscard]] size_t get_size() const noexcept { return registers.size(); };
 
-void unlock_reg(size_t idx);
+void lock_reg(size_t idx) { registers.at(idx).lock(); };
+
+void unlock_reg(size_t idx) { registers.at(idx).unlock(); };
+
+[[nodiscard]] bool is_locked(size_t idx) const { return registers.at(idx).is_busy(); };
+
+[[nodiscard]] long long read_register(size_t idx) const {return registers.at(idx).read(); }
+
+bool write_register(size_t idx, long long value) {
+    registers.at(idx).write(value);
+    return true;
+}
 
 private: 
     Vector<Register> registers;
-    size_t reg_size;
 };
 
 #endif //_REGISTERBLOCK_H

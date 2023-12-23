@@ -19,7 +19,7 @@ bool check_valid_type() const override;
 Operand *get_operand() const noexcept;
 
 private: 
-    Operand *operand;
+    std::shared_ptr<Operand> operand;
 };
 
 #endif //_UNARYINSTRUCTION_H

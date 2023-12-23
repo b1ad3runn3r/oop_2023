@@ -2,7 +2,7 @@
 #include <QCoreApplication>
 #include <QCommandLineParser>
 
-#include "notepad.h"
+#include "Editor.h"
 
 int main(int argc, char *argv[]) {
     QApplication EditorApp(argc, argv);
@@ -14,7 +14,7 @@ int main(int argc, char *argv[]) {
     cli_parser.process(EditorApp);
     const QStringList args = cli_parser.positionalArguments();
 
-    Notepad Editor;
+    Editor Editor;
     Editor.show();
 
     return QApplication::exec();

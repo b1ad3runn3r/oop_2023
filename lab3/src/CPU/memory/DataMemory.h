@@ -13,15 +13,22 @@ public:
 DataMemory(size_t mem_size);
 ~DataMemory();
 
-void get_data(const Identifier& id) const;
+long long read_identifier(const char *id) const;
+void write_identifier(const char *id);
 
-DataMemory& alloc(Identifier& id);
+DataMemory& alloc(const char *id);
 
-void lock(Identifier& id);
+void lock_identifier(const char *id);
 
-void unlock(Identifier& id);
+void unlock_identifier(const char *id);
 
-size_t find(Identifier& id) const;
+bool is_identifier_locked(const char *id) const;
+
+Identifier& find(const char *id);
+
+const Identifier& find(const char *id) const ;
+
+size_t get_size() const noexcept { return memory_size; };
 
 private: 
     size_t memory_size;

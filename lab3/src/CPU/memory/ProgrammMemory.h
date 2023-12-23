@@ -4,6 +4,7 @@
 #include <vector>
 #include <string>
 #include "../instructions/Instruction.h"
+#include <memory>
 
 template <typename T>
 using Vector = std::vector<T>;
@@ -11,23 +12,23 @@ using Vector = std::vector<T>;
 class ProgrammMemory {
 public: 
 
-ProgrammMemory(size_t code_size);
+ProgrammMemory(size_t code_size) : target_code(code_size) {}
+ProgrammMemory(Vector<std::shared_ptr<Instruction>> &mem) : target_code(mem) {}
 ~ProgrammMemory();
 
-std::string display();
+friend std::ostream &operator<<(std::ostream&o, const ProgrammMemory &mem);
 
 ProgrammMemory& edit_programm();
 
-Instruction& get_current_instr();
+std::shared_ptr<Instruction> get_current_instr() const noexcept { return target_code[program_counter]; }
 
-ProgrammMemory& set_pc_reg(size_t new_pc_val) const;
+ProgrammMemory& set_pc_reg(size_t new_pc_val);
 
-size_t get_code_size() const noexcept;
+size_t get_code_size() const noexcept { return target_code.size(); }
 
 private: 
-    Vector<Instruction> target_code;
-    size_t code_size;
-    size_t programm_counter;
+    Vector<std::shared_ptr<Instruction>> target_code;
+    size_t program_counter;
 };
 
 #endif //_PROGRAMMMEMORY_H

@@ -3,20 +3,22 @@
 
 #include "../instructions/Instruction.h"
 #include "ExecUnit.h"
+#include "../CPU/CPU.h"
 
 class ControlUnit {
-public: 
 
-explicit ControlUnit(Instruction& instr);
+public:
+    ControlUnit() noexcept : current_instr(nullptr) {};
 
-Instruction& get_instr();
+    std::shared_ptr<Instruction>& get_instr() noexcept { return current_instr; }
+    const std::shared_ptr<Instruction>& get_instr() const noexcept { return current_instr; }
 
-ControlUnit& process_instr(const Instruction& instr);
-
-ExecUnit& send_instr(const Instruction& instr);
+    ControlUnit& process_instr();
+    ControlUnit& set_new_instr();
+    ExecUnit& send_instr(ExecUnit& executor);
 
 private: 
-    Instruction& current_instr;
+    std::shared_ptr<Instruction> current_instr;
 };
 
 #endif //_CONTROLUNIT_H

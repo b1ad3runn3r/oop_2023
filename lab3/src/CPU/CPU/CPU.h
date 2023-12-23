@@ -4,6 +4,7 @@
 #include <string>
 #include <vector>
 #include <memory>
+#include <map>
 
 #include "../memory/DataMemory.h"
 #include "../memory/ProgrammMemory.h"
@@ -15,24 +16,23 @@ template<typename T>
 using Vector = std::vector<T>;
 
 class CPU {
+    friend class ControlUnit;
+
 public: 
 
-CPU(std::string& name, size_t data_mem_size, size_t prog_mem_size, size_t num_execut, size_t num_regs);
-
-~CPU();
-
-CPU& edit_model();
-
-void execute_code(const ProgrammMemory&);
-
-std::string get_info() const;
+    CPU(std::string& new_name, size_t data_mem_size, size_t num_execut, size_t num_regs, std::string code);
+    ~CPU();
+    CPU& edit_model();
+    void execute_code();
+    std::string get_info() const;
+    std::string get_state();
 
 private: 
     std::string name;
     ControlUnit controller;
     DataMemory dataMemory;
     ProgrammMemory progMemory;
-    Vector<std::shared_ptr<ExecUnit>> executors;
+    Vector<ExecUnit> executors;
     size_t num_exec;
     RegisterBlock registers;
 };

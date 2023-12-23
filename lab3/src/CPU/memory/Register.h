@@ -4,11 +4,7 @@
 #include "Operand.h"
 
 class Register : public Operand {
-public: 
-
-virtual long long read() const noexcept override;
-
-virtual void write(long long value) override;
+public:
 
 private: 
 

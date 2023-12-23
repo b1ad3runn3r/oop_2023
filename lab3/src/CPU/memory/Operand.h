@@ -4,21 +4,22 @@
 class Operand {
 public: 
 
-explicit Operand(long long val = 0);
-virtual ~Operand() = 0;
+explicit Operand(long long value = 0) noexcept : value(value), busy(false) {};
 
-virtual long long read() const noexcept = 0;
+virtual ~Operand() = default;
 
-virtual void write(long long value) = 0;
+[[nodiscard]] long long read() const noexcept { return value; };
 
-void lock();
+void write(long long new_value) noexcept { value = new_value; };
 
-void unlock();
+void lock() noexcept { busy = true; };
 
-bool is_locked() const noexcept;
+void unlock() noexcept { busy = false; };
+
+[[nodiscard]] bool is_busy() const noexcept { return busy; };
 
 protected: 
-    bool lock_status;
+    bool busy;
     long long value;
 };
 
