@@ -1,0 +1,5 @@
+build*
+.PVS-Studio*
+docs
+.idea
+.vscode*
