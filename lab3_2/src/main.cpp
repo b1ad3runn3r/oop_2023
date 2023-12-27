@@ -30,13 +30,6 @@ int main() {
     Message msg(1, msg_str);
     std::string name = "username";
 
-    TransportTable tbl;
-    std::shared_ptr<Package> ptr1 = std::make_shared<MailPackage>(
-            MailPackage({"1.1.1.1", "2.2.2.2"} ,name, msg));
-
-    std::shared_ptr<Package> ptr2 = std::make_shared<MailPackage>(
-            MailPackage({"1.1.1.1", "2.2.2.2"} ,name, msg));
-
     TransportTable table;
     std::map<std::string, std::atomic<size_t>> distribution;
     distribution["MAIL"] = 0;
@@ -45,41 +38,49 @@ int main() {
 
     std::random_device rnd;
     std::mt19937_64 rng(rnd());
-    std::uniform_int_distribution<size_t> uni(1, 4);
+    std::uniform_int_distribution<size_t> uni(0, 2);
+    std::uniform_int_distribution<size_t> uni2(1, 10);
 
     // Generate
     for (size_t i = 0; i < 1000000; ++i) {
         auto rand_num = uni(rng);
+        std::string sender = std::format("{}.{}.{}.{}", uni2(rng), uni2(rng), uni2(rng), uni2(rng));
+        std::string receiver = std::format("{}.{}.{}.{}", uni2(rng), uni2(rng), uni2(rng), uni2(rng));
+        std::shared_ptr<Package> ptr;
         switch (rand_num % 3) {
             case 0:
-                table.add_package(std::make_shared<MailPackage>(
+                ptr = std::make_shared<MailPackage>(
                         MailPackage(
-                                {"1.1.1.1", "2.2.2.2"} ,
+                                {sender, receiver} ,
                                 name,
                                 msg)
-                ));
+                );
+                table.add_package(ptr);
                 break;
 
             case 1:
-                table.add_package(std::make_shared<FilePackage>(
+                ptr = std::make_shared<FilePackage>(
                         FilePackage(
-                                {"1.1.1.1", "2.2.2.2"} ,
+                                {sender, receiver} ,
                                 msg,
                                 {ASCII, DATA})
-                ));
+                );
+                table.add_package(ptr);
                 break;
 
             case 2:
-                table.add_package(std::make_shared<HypertextPackage>(
+                ptr = std::make_shared<HypertextPackage>(
                         HypertextPackage(
-                                {"1.1.1.1", "2.2.2.2"},
+                                {sender, receiver},
                                 msg,
                                 {ASCII, DATA},
                                 {nullptr, 0})
-                ));
+                );
+                table.add_package(ptr);
                 break;
         }
     }
+
     const auto table_size = table.get_table().size();
     std::cout << "Table size: " << table_size << std::endl << std::endl;
 

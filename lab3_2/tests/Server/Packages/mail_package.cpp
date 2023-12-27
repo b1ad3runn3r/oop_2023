@@ -65,10 +65,10 @@ TEST_CASE("MailPackage") {
         std::string info = mail_package.get_info();
 
         std::stringstream ss;
-        ss << "sender: " << mail_package.get_sender() << '\n';
-        ss << "receiver: " << mail_package.get_receiver() << '\n';
-        ss << "user: " << mail_package.get_username() << '\n';
-        ss << "message: ";
+        ss << mail_package.get_package_type() << ';';
+        ss << mail_package.get_sender() << ';';
+        ss << mail_package.get_receiver() << ';';
+        ss << mail_package.get_username() << ';';
         ss << std::hex;
         for (int i = 0; i < 4; i++) {
             ss << static_cast<int>(msg.get_msg()[i]);

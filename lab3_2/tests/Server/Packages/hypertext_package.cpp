@@ -52,12 +52,13 @@ TEST_CASE("HypertextPackage") {
         std::string info1 = hp1.get_info();
 
         std::stringstream ss1;
-        ss1 << "sender: " << hp1.get_sender() << '\n';
-        ss1 << "receiver: " << hp1.get_receiver() << '\n';
-        ss1 << "code: " << "ASCII" << '\n';
-        ss1 << "info: " << "DATA" << '\n';
-        ss1 << "links: " << "[FTP,aboba.ru] [HTTP,mephi.ru] \n";
-        ss1 << "message: " << msg.get_msg_ascii();
+        ss1 << hp1.get_package_type() << ';';
+        ss1 << hp1.get_sender() << ';';
+        ss1 << hp1.get_receiver() << ';';
+        ss1 << "ASCII" << ';';
+        ss1 << "DATA" << ';';
+        ss1 << "[FTP,aboba.ru] [HTTP,mephi.ru] ;";
+        ss1 << msg.get_msg_ascii();
 
         REQUIRE(ss1.str() == info1);
 
@@ -65,12 +66,13 @@ TEST_CASE("HypertextPackage") {
         std::string info3 = fp2.get_info();
 
         std::stringstream ss2;
-        ss2 << "sender: " << fp2.get_sender() << '\n';
-        ss2 << "receiver: " << fp2.get_receiver() << '\n';
-        ss2 << "code: " << "BIN" << '\n';
-        ss2 << "info: " << "CMD" << '\n';
-        ss1 << "links: " << "[FTP,aboba.ru] [HTTP,mephi.ru] \n";
-        ss2 << "message: " << msg.get_msg_hex();
+        ss2 << fp2.get_package_type() << ';';
+        ss2 << fp2.get_sender() << ';';
+        ss2 << fp2.get_receiver() << ';';
+        ss2 << "BIN" << ';';
+        ss2 << "CMD" << ';';
+        ss1 << "[FTP,aboba.ru] [HTTP,mephi.ru] ;";
+        ss2 << msg.get_msg_hex();
 
         REQUIRE(ss2.str() == info3);
     }
