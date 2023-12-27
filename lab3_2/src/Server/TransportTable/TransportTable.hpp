@@ -22,8 +22,8 @@ private:
 
 public:
     explicit TransportTable() : table() {};
-    TransportTable(const TransportTable &other) = default;
-    TransportTable(TransportTable &&old) noexcept : table(std::move(old.table)) {};
+    TransportTable(const TransportTable &other) { table = other.table; }
+    TransportTable(TransportTable &&old) noexcept { std::swap(table, old.table); }
 
     TransportTable& operator=(const TransportTable &other);
     TransportTable& operator=(TransportTable &&other) noexcept;
