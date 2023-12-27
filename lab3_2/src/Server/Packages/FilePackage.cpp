@@ -1,6 +1,7 @@
 #include "FilePackage.hpp"
 #include "HypertextPackage.hpp"
 #include <stdexcept>
+#include <sstream>
 
 FilePackage::FilePackage(const send_recv_ip& ips, const Message& message, payload_info info) {
     if (ips.sender.empty() || ips.receiver.empty()) {
@@ -16,23 +17,26 @@ FilePackage::FilePackage(const send_recv_ip& ips, const Message& message, payloa
 }
 
 std::string FilePackage::get_info() const {
-    std::string sender = "sender: " + get_sender() + '\n';
-    std::string receiver = "receiver: " + get_receiver() + '\n';
-    std::string code;
+    std::ostringstream oss;
+
+    oss << type << ';';
+    oss << get_sender() << ';';
+    oss << get_receiver() << ';';
     std::string message;
 
     if (code_type == ASCII) {
-        code = "code: ASCII\n";
-        message = "message: " + msg.get_msg_ascii();
+        oss <<  "ASCII;";
+        message = msg.get_msg_ascii();
     }
     else {
-        code = "code: BIN\n";
-        message = "message: " + msg.get_msg_hex();
+        oss << "BIN;";
+        message = msg.get_msg_hex();
     }
 
-    std::string info = "info: " + std::string((info_type == CMD) ? "CMD" : "DATA") + '\n';
+    oss << std::string((info_type == CMD) ? "CMD" : "DATA") + ';';
+    oss << message;
 
-    return sender + receiver + code + info + message;
+    return oss.str();
 }
 
 HypertextPackage FilePackage::convert_to_hypertext() const {

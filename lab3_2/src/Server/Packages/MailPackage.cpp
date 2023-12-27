@@ -3,6 +3,7 @@
 #include <stdexcept>
 #include <algorithm>
 #include <format>
+#include <sstream>
 
 MailPackage::MailPackage(const send_recv_ip& ips, std::string& user, const Message& message) {
     if (ips.sender.empty() || ips.receiver.empty()) {
@@ -21,12 +22,14 @@ MailPackage::MailPackage(const send_recv_ip& ips, std::string& user, const Messa
 }
 
 std::string MailPackage::get_info() const {
-    std::string sender = "sender: " + get_sender() + '\n';
-    std::string receiver = "receiver: " + get_receiver() + '\n';
-    std::string user = "user: " + get_username() + '\n';
-    std::string message = "message: " + msg.get_msg_hex();
+    std::ostringstream oss;
+    oss << type << ';';
+    oss << get_sender() << ';';
+    oss << get_receiver() << ';';
+    oss << get_username() << ';';
+    oss << msg.get_msg_hex();
 
-    return sender + receiver + user + message;
+    return oss.str();
 }
 
 FilePackage MailPackage::convert_to_file() const {

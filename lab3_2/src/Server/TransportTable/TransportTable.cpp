@@ -63,8 +63,8 @@ std::shared_ptr<Package> TransportTable::find_package(const std::string& addr, c
 std::ostringstream &operator<< (std::ostringstream& oss, const TransportTable& tbl) noexcept {
     try {
         for (const auto  &iter : tbl.table) {
-            oss << iter.first.first << ' ';
-            oss << iter.first.second << ' ';
+            oss << iter.first.first << ';';
+            oss << iter.first.second << ';';
             oss << iter.second->get_info() << '\n';
         }
     }

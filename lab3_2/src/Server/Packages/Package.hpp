@@ -36,6 +36,12 @@ public:
      * @return receiver's IP address
      */
     [[nodiscard]] const std::string& get_receiver() const noexcept { return recv_ip; }
+
+    /**
+     * Message getter (const)
+     * @return const reference to message
+     */
+    [[nodiscard]] const Message& get_message() const noexcept { return msg; }
 };
 
 #endif //PACKAGE_HPP
