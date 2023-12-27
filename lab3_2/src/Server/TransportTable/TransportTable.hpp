@@ -10,8 +10,9 @@
 
 class Server;
 
+typedef std::pair<std::string, std::string> table_key_t;
+
 class TransportTable {
-    typedef std::pair<std::string, std::string> table_key_t;
 
 private:
     // IP TYPE
@@ -80,10 +81,16 @@ public:
     [[nodiscard]] bool empty() const noexcept { return table.empty(); }
 
     /**
+     * Table getter (const)
+     * @return const reference to table
+     */
+    [[nodiscard]] const auto& get_table() const noexcept { return table; }
+
+    /**
      * Table getter
      * @return reference to table
      */
-    [[nodiscard]] const auto& get_table() const noexcept { return table; }
+    [[nodiscard]] auto& get_table() noexcept { return table; }
 
     /**
      * Add package to table
