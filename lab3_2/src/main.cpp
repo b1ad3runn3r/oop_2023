@@ -14,27 +14,34 @@
 #include "Server/Message/Message.hpp"
 
 void ccount(std::map<std::string, std::atomic<size_t>>& distrib,
-            std::multimap<table_key_t, std::shared_ptr<Package>>::iterator begin,
-            std::multimap<table_key_t, std::shared_ptr<Package>>::iterator end) {
+            std::multimap<table_key_t, std::shared_ptr<Package>>::const_iterator begin,
+            std::multimap<table_key_t, std::shared_ptr<Package>>::const_iterator end) {
 
     for (auto iter = begin; iter != end; ++iter) {
         distrib[iter->second->get_package_type()] += 1;
     }
 }
 
-int main() {
-    auto msg_str = new byte[2];
-    msg_str[0] = 'Z';
-    msg_str[1] = 0;
+int main(int argc, char **argv) {
+    /*
+    if (argc != 2) {
+        std::cerr << "Usage :" << argv[0] << ' ' << "% number_of_runs %" << std::endl;
+        return 1;
+    }
 
-    Message msg(1, msg_str);
+    auto num_runs = strtoull(argv[1], nullptr, 10);
+    std::cout << "Running " << num_runs << " times!" << std::endl;*/
+    size_t num_runs = 20000;
+
+    Message msg;
     std::string name = "username";
 
     TransportTable table;
     std::map<std::string, std::atomic<size_t>> distribution;
-    distribution["MAIL"] = 0;
-    distribution["FILE"] = 0;
-    distribution["HYPERTEXT"] = 0;
+
+    // distribution["MAIL"] = 0;
+    // distribution["FILE"] = 0;
+    // distribution["HYPERTEXT"] = 0;
 
     std::random_device rnd;
     std::mt19937_64 rng(rnd());
@@ -42,10 +49,12 @@ int main() {
     std::uniform_int_distribution<size_t> uni2(1, 10);
 
     // Generate
-    for (size_t i = 0; i < 1000000; ++i) {
+    for (size_t i = 0; i < num_runs; ++i) {
         auto rand_num = uni(rng);
+
         std::string sender = std::format("{}.{}.{}.{}", uni2(rng), uni2(rng), uni2(rng), uni2(rng));
         std::string receiver = std::format("{}.{}.{}.{}", uni2(rng), uni2(rng), uni2(rng), uni2(rng));
+
         std::shared_ptr<Package> ptr;
         switch (rand_num % 3) {
             case 0:
@@ -85,8 +94,8 @@ int main() {
     std::cout << "Table size: " << table_size << std::endl << std::endl;
 
     // One threaded
-    auto one_iter_begin = table.get_table().begin();
-    auto one_iter_end = table.get_table().end();
+    auto one_iter_begin = table.get_table().cbegin();
+    auto one_iter_end = table.get_table().cend();
 
     auto one_begin = std::chrono::steady_clock::now();
     ccount(distribution, one_iter_begin, one_iter_end);
@@ -113,8 +122,8 @@ int main() {
         size_t start = i * table_size / num_threads;
         size_t end = start + table_size / num_threads;
 
-        auto iter_start = std::next(table.get_table().begin(), start);
-        auto iter_end = std::next(table.get_table().begin(), end);
+        auto iter_start = std::next(table.get_table().cbegin(), start);
+        auto iter_end = std::next(table.get_table().cbegin(), end);
 
         threads[i] = std::thread(ccount, std::ref(distribution), iter_start, iter_end);
     }
@@ -130,6 +139,5 @@ int main() {
         std::cout << std::format("{} found {} times!", iter.first, iter.second.load()) << std::endl;
     }
 
-    delete[] msg_str;
     return 0;
 }

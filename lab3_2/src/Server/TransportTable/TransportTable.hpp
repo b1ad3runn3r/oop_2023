@@ -115,9 +115,9 @@ public:
 
     /**
      * Print operator
-     * @param oss output stringstream
+     * @param oss output std::ostringstream
      * @param tbl table
-     * @return modified stringstream
+     * @return modified std::ostringstream
      */
     friend std::ostringstream &operator<< (std::ostringstream& oss, const TransportTable& tbl) noexcept;
 };

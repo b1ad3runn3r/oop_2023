@@ -13,7 +13,11 @@ add_executable(ide
         src/TableViewer/TableViewer.h
         src/TableViewer/TableViewer.ui
         src/Calculations.cpp
-        src/Calculations.hpp)
+        src/Calculations.hpp
+        #src/CreateDialog/CreateDialog.cpp
+        #src/CreateDialog/CreateDialog.h
+        #src/CreateDialog/CreateDialog.ui
+)
 
 target_link_libraries(ide PUBLIC
         Qt6::Core

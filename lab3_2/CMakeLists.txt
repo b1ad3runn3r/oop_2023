@@ -4,10 +4,8 @@ project(lab3_2 CXX)
 set(CMAKE_CXX_STANDARD 20)
 find_package(Threads)
 
-if (CMAKE_BUILD_TYPE EQUAL "Debug")
-    add_compile_options(-fsanitize=thread)
-    add_link_options(-fsanitize=thread)
-endif()
+add_compile_options(-fsanitize=thread)
+add_link_options(-fsanitize=thread)
 
 add_subdirectory(src/Server/Packages)
 add_subdirectory(src/Server/Message)

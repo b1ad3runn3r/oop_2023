@@ -64,6 +64,9 @@
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
   <action name="actionRegenerate">
+   <property name="icon">
+    <iconset theme="media-playlist-repeat"/>
+   </property>
    <property name="text">
     <string>Refill table</string>
    </property>
@@ -72,6 +75,9 @@
    </property>
   </action>
   <action name="actionExit">
+   <property name="icon">
+    <iconset theme="go-home"/>
+   </property>
    <property name="text">
     <string>Exit</string>
    </property>
@@ -80,6 +86,9 @@
    </property>
   </action>
   <action name="actionAddPackage">
+   <property name="icon">
+    <iconset theme="contact-new"/>
+   </property>
    <property name="text">
     <string>Add package</string>
    </property>
@@ -88,6 +97,9 @@
    </property>
   </action>
   <action name="actionFindPackage">
+   <property name="icon">
+    <iconset theme="edit-find"/>
+   </property>
    <property name="text">
     <string>Find package</string>
    </property>
@@ -96,6 +108,9 @@
    </property>
   </action>
   <action name="actionUniqueSenders">
+   <property name="icon">
+    <iconset theme="user-available"/>
+   </property>
    <property name="text">
     <string>Unique senders</string>
    </property>
@@ -104,6 +119,9 @@
    </property>
   </action>
   <action name="actionPackageDistribution">
+   <property name="icon">
+    <iconset theme="input-keyboard"/>
+   </property>
    <property name="text">
     <string>Package distribution</string>
    </property>
@@ -112,6 +130,9 @@
    </property>
   </action>
   <action name="actionDropPackage">
+   <property name="icon">
+    <iconset theme="edit-delete"/>
+   </property>
    <property name="text">
     <string>Drop package</string>
    </property>

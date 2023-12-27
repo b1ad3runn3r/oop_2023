@@ -12,6 +12,7 @@
 #include <QInputDialog>
 #include <QAbstractItemView>
 #include <QStandardItemModel>
+#include <QComboBox>
 
 #include "../Calculations.hpp"
 
@@ -57,7 +58,7 @@ TableViewer::TableViewer(QWidget *parent) :
     QStringList list = {"type", "sender", "receiver", "username", "code_type", "info_type", "links", "message"};
     ui->tableWidget->setHorizontalHeaderLabels(list);
 
-    fillTable(100);
+    fillTable(20);
     ui->tableWidget->setSortingEnabled(true);
 }
 
@@ -73,7 +74,11 @@ void TableViewer::refillTable() {
         return;
     }
 
+    ui->tableWidget->clearContents();
+    ui->tableWidget->model()->removeRows(0, ui->tableWidget->rowCount());
+
     auto num_gens = text.toUInt();
+    qDebug() << num_gens;
     fillTable(num_gens);
 }
 
@@ -200,7 +205,11 @@ void TableViewer::fillTable(unsigned int length) {
 
             ui->tableWidget->setItem(old_row, 4, new QTableWidgetItem(code_type.c_str()));
             ui->tableWidget->setItem(old_row, 5, new QTableWidgetItem(info_type.c_str()));
-            ui->tableWidget->setItem(old_row, 6, new QTableWidgetItem(links.c_str()));
+            QString l_links;
+            QString q_links = links.c_str();
+            for (const auto &l_iter : q_links.split(' ')) {
+                l_links += l_iter + '\n';
+            }
             ui->tableWidget->setItem(old_row, 7, new QTableWidgetItem(message.c_str()));
 
         }
@@ -210,7 +219,17 @@ void TableViewer::fillTable(unsigned int length) {
 }
 
 void TableViewer::addPackage() {
+    auto *dialog = new QDialog;
+    auto comb1 = new QComboBox(dialog);
+    comb1->addItem("MAIL");
+    comb1->addItem("FILE");
+    comb1->addItem("HYPERTEXT");
 
+    //auto comb2 = new QComboBox(dialog);
+    //comb2->insertItem(1, "Belye", 1);
+
+    dialog->exec();
+    delete dialog;
 }
 
 void TableViewer::findPackage() {
