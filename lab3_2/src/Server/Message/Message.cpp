@@ -14,11 +14,11 @@ Message::Message(size_t len, const byte *message) {
     }
 }
 
-Message::Message(const Message& old) {
-    auto new_msg = new byte[old.msg_len + 1];
-    std::copy(old.msg, old.msg + old.msg_len + 1, new_msg);
+Message::Message(const Message& other) {
+    auto new_msg = new byte[other.msg_len + 1];
+    std::copy(other.msg, other.msg + other.msg_len + 1, new_msg);
 
-    msg_len = old.msg_len;
+    msg_len = other.msg_len;
     //delete[] msg;
     msg = new_msg;
 }
